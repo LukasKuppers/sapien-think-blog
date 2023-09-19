@@ -18,6 +18,7 @@ const Home = () => {
       setWindowWidth(window.innerWidth);
     };
 
+    handleResize();
     window.addEventListener('resize', handleResize);
 
     // clean up listener when component unmounts
