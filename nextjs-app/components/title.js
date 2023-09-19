@@ -11,7 +11,7 @@ const Title = () => {
     return (
         <div className={styles.container}>
             <Image src='/images/logo.svg' height={60} width={60} alt='logo'/>
-            <h1 className={`${jetBrainsMono.className} ${utilStyles.colPrimary}`}>sapien think</h1>
+            <h1 className={`${jetBrainsMono.className} ${utilStyles.colPrimary}`}>Sapien Think</h1>
         </div>
     );
 };
