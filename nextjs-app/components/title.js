@@ -1,11 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { JetBrains_Mono } from 'next/font/google';
 
 import utilStyles from '../styles/utils.module.css';
 import styles from './title.module.css';
-
-const jetBrainsMono = JetBrains_Mono({ subsets: ['latin'], weight: '800' });
+import { jetBrainsMonoBold } from '../lib/fonts';
 
 
 const Title = ({ size }) => {
@@ -37,7 +35,8 @@ const Title = ({ size }) => {
     return (
         <Link href='/' className={styles.container}>
             <Image src='/images/logo.svg' height={getLogoSize()} width={getLogoSize()} alt='logo'/>
-            <h1 className={`${jetBrainsMono.className} ${utilStyles.colPrimary} ${getFontClass()}`}>Sapien Think</h1>
+            <h1 className={`${jetBrainsMonoBold.className} ${utilStyles.colPrimary} ${getFontClass()}`}
+                >Sapien Think</h1>
         </Link>
     );
 };
