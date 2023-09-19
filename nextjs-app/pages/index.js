@@ -1,8 +1,8 @@
 import Head from 'next/head';
-import { JetBrains_Mono } from 'next/font/google';
+import Image from 'next/image';
 
 import utilStyles from '../styles/utils.module.css';
-const jetBrainsMono = JetBrains_Mono({ subsets: ['latin'], weight: '800' });
+import Title from '../components/title';
 const text = require('../textChunks.json');
 
 
@@ -13,7 +13,7 @@ const Home = () => {
         <title>{text.siteName}</title>
       </Head>
 
-      <h1 className={`${jetBrainsMono.className} ${utilStyles.colPrimary}`}>sapien think</h1>
+      <Title />
     </div>
   );
 };
