@@ -36,3 +36,9 @@ img {
   max-width: 100%;
   display: block;
 }
+
+.app-wrapper {
+  top: 0;
+  min-height: 100vh;
+  padding: 3rem;
+}

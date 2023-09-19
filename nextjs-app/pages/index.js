@@ -1,46 +1,20 @@
 import Head from 'next/head';
-import Link from 'next/link';
-import Layout, { siteTitle } from '../components/layout';
+import { JetBrains_Mono } from 'next/font/google';
+
 import utilStyles from '../styles/utils.module.css';
-import { getSortedPostsData } from '../lib/posts';
-import Date from '../components/date';
+const jetBrainsMono = JetBrains_Mono({ subsets: ['latin'], weight: '800' });
+const text = require('../textChunks.json');
 
 
-export async function getStaticProps() {
-  const allPostsData = getSortedPostsData();
-  return {
-    props: { allPostsData }
-  };
-};
-
-const Home = ({ allPostsData }) => {
+const Home = () => {
   return (
-    <Layout home>
+    <div>
       <Head>
-        <title>{siteTitle}</title>
+        <title>{text.siteName}</title>
       </Head>
-      <section className={utilStyles.headingMd}>
-        <p>[Your Self Introduction]</p>
-        <p>
-          (This is a sample website - you’ll be building a site like this on{' '}
-          <a href="https://nextjs.org/learn">our Next.js tutorial</a>.)
-        </p>
-      </section>
-      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h2 className={utilStyles.headingLg}>Blog</h2>
-        <ul className={utilStyles.list}>
-          {allPostsData.map(({ id, date, title }) => (
-            <li className={utilStyles.listItem} key={id}>
-              <Link href={`/posts/${id}`}>{title}</Link>
-              <br />
-              <small className={utilStyles.lightText}>
-                <Date dateString={date} />
-              </small>
-            </li>
-          ))}
-        </ul>
-      </section>
-    </Layout>
+
+      <h1 className={`${jetBrainsMono.className} ${utilStyles.colPrimary}`}>sapien think</h1>
+    </div>
   );
 };
 
