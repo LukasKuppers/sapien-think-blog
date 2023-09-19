@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { JetBrains_Mono } from 'next/font/google';
 
 import utilStyles from '../styles/utils.module.css';
@@ -7,12 +8,37 @@ import styles from './title.module.css';
 const jetBrainsMono = JetBrains_Mono({ subsets: ['latin'], weight: '800' });
 
 
-const Title = () => {
+const Title = ({ size }) => {
+    
+    const mapSizeToOption = (sizeMap) => {
+        if (!sizeMap.hasOwnProperty(size)) {
+            console.warn('Title: supplied size option is invalid. Size should be one of s, m or l');
+            return sizeMap['m'];
+        }
+        return sizeMap[size];
+    }
+
+    const getLogoSize = () => {
+        return mapSizeToOption({
+            's': 50, 
+            'm': 60, 
+            'l': 100
+        });
+    };
+
+    const getFontClass = () => {
+        return mapSizeToOption({
+            's': styles.textSmall, 
+            'm': styles.textMedium, 
+            'l': styles.textLarge
+        });
+    };
+
     return (
-        <div className={styles.container}>
-            <Image src='/images/logo.svg' height={60} width={60} alt='logo'/>
-            <h1 className={`${jetBrainsMono.className} ${utilStyles.colPrimary}`}>Sapien Think</h1>
-        </div>
+        <Link href='/' className={styles.container}>
+            <Image src='/images/logo.svg' height={getLogoSize()} width={getLogoSize()} alt='logo'/>
+            <h1 className={`${jetBrainsMono.className} ${utilStyles.colPrimary} ${getFontClass()}`}>Sapien Think</h1>
+        </Link>
     );
 };
 

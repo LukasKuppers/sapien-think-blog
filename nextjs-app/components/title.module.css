@@ -6,6 +6,17 @@
 }
 
 .container h1 {
-    font-size: 50px;
     margin: 0;
+}
+
+.textSmall {
+    font-size: 40px;
+}
+
+.textMedium {
+    font-size: 50px;
+}
+
+.textLarge {
+    font-size: 80px;
 }
