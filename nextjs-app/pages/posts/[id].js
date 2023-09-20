@@ -1,8 +1,10 @@
 import Head from 'next/head';
-import Layout from '../../components/layout';
+
 import { getAllPostIds, getPostData } from '../../lib/posts';
 import Date from '../../components/date';
+import TopBar from '../../components/topBar';
 import utilStyles from '../../styles/utils.module.css';
+import styles from '../../styles/posts/[id].module.css';
 
 
 export async function getStaticPaths() {
@@ -26,18 +28,20 @@ export async function getStaticProps({ params }) {
 
 const Post = ({ postData }) => {
     return (
-        <Layout>
+        <div className={`${styles.pageContainer} ${utilStyles.colThemeBg}`}>
             <Head>
                 <title>{postData.title}</title>
             </Head>
-            <article>
+            <TopBar title={postData.title} scrollThresholdPx={200} />
+
+            <article className={styles.articleContainer}>
                 <h1 className={utilStyles.headingXl}>{postData.title}</h1>
                 <div className={utilStyles.lightText}>
                     <Date dateString={postData.date} />
                 </div>
                 <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
             </article>
-        </Layout>
+        </div>
     );
 };
 

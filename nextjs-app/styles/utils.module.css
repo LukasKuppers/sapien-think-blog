@@ -59,6 +59,10 @@
   color: #666;
 }
 
+.colSecondaryBorder {
+  border-color: #666;
+}
+
 .colAccent {
   color: #0077B6
 }

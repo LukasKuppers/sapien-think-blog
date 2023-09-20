@@ -1,0 +1,23 @@
+.container {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  padding: 0.5rem;
+  padding-left: 1rem;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}
+
+.title {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.visible {
+  opacity: 1;
+}
