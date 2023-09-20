@@ -7,6 +7,8 @@ Sapien-think is built with NEXT.js, and pages are statically generated. See the 
 
 Articles are stored via a custom CMS solution. An express API is responsible for uploading and fetching articles. See the `cms-api` directory for details.
 
+See the [api docs](./cms-api/functions/controllers/ARTICLESAPIDOCS.md).
+
 ## Deployments
 
 ### Next.js App
