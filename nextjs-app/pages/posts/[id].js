@@ -5,6 +5,7 @@ import Date from '../../components/date';
 import TopBar from '../../components/topBar';
 import utilStyles from '../../styles/utils.module.css';
 import styles from '../../styles/posts/[id].module.css';
+import { jetBrainsMonoBold, jetBrainsMono, merriweather } from '../../lib/fonts';
 
 
 export async function getStaticPaths() {
@@ -35,11 +36,13 @@ const Post = ({ postData }) => {
             <TopBar title={postData.title} scrollThresholdPx={200} />
 
             <article className={styles.articleContainer}>
-                <h1 className={utilStyles.headingXl}>{postData.title}</h1>
+                <h1 className={`${utilStyles.headingXl} ${jetBrainsMonoBold.className}`}>{postData.title}</h1>
                 <div className={utilStyles.lightText}>
                     <Date dateString={postData.date} />
                 </div>
-                <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
+                <div
+                  className={`${jetBrainsMono.variable} ${jetBrainsMonoBold.variable} ${merriweather.variable}`} 
+                  dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
             </article>
         </div>
     );
