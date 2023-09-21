@@ -5,7 +5,7 @@ import DateDisplay from '../../components/date';
 import TopBar from '../../components/topBar';
 import utilStyles from '../../styles/utils.module.css';
 import styles from '../../styles/posts/[id].module.css';
-import { jetBrainsMonoBold, jetBrainsMono, merriweather } from '../../lib/fonts';
+import { jetBrainsMonoBold, jetBrainsMono, merriweather, montserrat } from '../../lib/fonts';
 
 
 export async function getStaticPaths() {
@@ -40,13 +40,20 @@ const Post = ({ articleData }) => {
       <TopBar title={articleData.data.title} scrollThresholdPx={200} />
 
       <article className={styles.articleContainer}>
-        <h1 className={`${utilStyles.headingXl} ${jetBrainsMonoBold.className}`}>{articleData.data.title}</h1>
+        <h1 className={`${jetBrainsMonoBold.className} ${utilStyles.heading2Xl}`}>{articleData.data.title}</h1>
+        {articleData.data.subtitle ? 
+          <span className={`${montserrat.className} ${utilStyles.headingLg}`}>{articleData.data.subtitle}</span> : ''}
         <div className={utilStyles.lightText}>
           <DateDisplay timestamp={articleData.data.date} />
         </div>
-        <div
-          className={`${jetBrainsMono.variable} ${jetBrainsMonoBold.variable} ${merriweather.variable}`} 
-          dangerouslySetInnerHTML={{ __html: articleData.content }} />
+        <br />
+        <hr />
+        <br />
+        <div className={styles.articleContentContainer}>
+          <div
+            className={`${jetBrainsMono.variable} ${jetBrainsMonoBold.variable} ${merriweather.variable}`} 
+            dangerouslySetInnerHTML={{ __html: articleData.content }} />
+        </div>
       </article>
     </div>
   );

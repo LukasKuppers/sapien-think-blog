@@ -1,11 +1,16 @@
 import { format } from 'date-fns';
+import { montserrat } from '../lib/fonts';
 
 
 const DateDisplay = ({ timestamp }) => {
   const date = new Date(timestamp);
 
   return (
-      <time dateTime={date.toISOString()}>{format(date, 'LLLL d, yyyy')}</time>
+      <time
+        className={montserrat.className} 
+        dateTime={date.toISOString()}>
+          {format(date, 'LLLL d, yyyy')}
+      </time>
   );
 };
 

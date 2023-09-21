@@ -1,5 +1,5 @@
-import { JetBrains_Mono } from 'next/font/google';
-import { Merriweather } from 'next/font/google';
+import { JetBrains_Mono, Merriweather, Montserrat } from 'next/font/google';
+
 
 const jetBrainsMonoBold = JetBrains_Mono({ 
   subsets: ['latin'], 
@@ -19,8 +19,17 @@ const merriweather = Merriweather({
   weight: '400'
 });
 
+const montserrat = Montserrat({
+  subsets: ['latin'], 
+  variable: '--font-montserrat', 
+  weight: '400'
+});
+
+
+
 module.exports = {
     jetBrainsMonoBold, 
     jetBrainsMono, 
-    merriweather
+    merriweather, 
+    montserrat
 };

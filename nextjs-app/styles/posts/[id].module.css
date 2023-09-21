@@ -10,20 +10,41 @@
   margin: 3rem;
   margin-top: 10rem;
   max-width: 700px;
+  color: #333333;
 }
 
 /* Colors copied from utils.module.css :( fix if a better way is found */
 
-.articleContainer h1 {
-  color: #333333
-}
-
-.articleContainer h2 {
+.articleContentContainer h1 {
+  font-size: 2rem;
+  line-height: 1.3;
+  font-weight: 800;
+  letter-spacing: -0.05rem;
+  margin: 1rem 0;
   font-family: var(--font-jetbrains-mono);
-  color: #333333
+  color: #333333;
 }
 
-.articleContainer p {
+.articleContentContainer h2 {
+  font-family: var(--font-jetbrains-mono);
+  color: #333333;
+}
+
+.articleContentContainer p {
   font-family: var(--font-merriweather);
   color: #666;
+}
+
+.articleContentContainer ul {
+  font-family: var(--font-merriweather);
+  color: #666;
+}
+
+.articleContainer strong {
+  color: #333333;
+}
+
+.articleContainer a {
+  color: #333333;
+  text-decoration: underline;
 }
