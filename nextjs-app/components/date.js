@@ -1,12 +1,13 @@
-import { parseISO, format } from 'date-fns';
+import { format } from 'date-fns';
 
 
-const Date = ({ dateString }) => {
-    const date = parseISO(dateString);
-    return (
-        <time dateTime={dateString}>{format(date, 'LLLL d, yyyy')}</time>
-    );
+const DateDisplay = ({ timestamp }) => {
+  const date = new Date(timestamp);
+
+  return (
+      <time dateTime={date.toISOString()}>{format(date, 'LLLL d, yyyy')}</time>
+  );
 };
 
 
-export default Date;
+export default DateDisplay;
