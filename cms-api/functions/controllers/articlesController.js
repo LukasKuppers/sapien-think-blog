@@ -1,17 +1,45 @@
 const logger = require('firebase-functions/logger');
 
+const admin = require('../admin');
+
+const DATA_KEY = 'data';
+const ID_KEY = 'id';
+const TITLE_KEY = 'title';
+const SUBTITLE_KEY = 'subtitle';
+const THUMBNAIL_KEY = 'thumbnail';
+const CONTENT_KEY = 'content';
+
 
 const getAllArticles = (req, res) => {
-  const resJson = {
-    articles: [
-      'article1', 
-      'article2', 
-      'article3'
-    ]
-  };
+  logger.info('Processing request at GET /api/articles: Getting list of metadata for all articles');
 
-  logger.info('Responding to request for all articles');
-  res.json(resJson);
+  const db = admin.firestore();
+  const articlesRef = db.collection('articles');
+
+  // query firebase for all articles
+  articlesRef.listDocuments()
+    .then((articleRefs) => {
+      return db.getAll(...articleRefs);
+    })
+    .then((articleSnapshots) => {
+      // filter out non-extant articles and format output list
+      const formattedArticleList = articleSnapshots
+        .filter((article) => article.exists)
+        .map((article) => {
+          const metadata = article.data();
+          return {
+            params: {
+              id: article.id, 
+              title: metadata.title, 
+              date: metadata.date, 
+              subtitle: metadata.subtitle, 
+              thumbnail: metadata.thumbnail
+            }
+          };
+        });
+
+      res.status(200).json({articles: formattedArticleList});
+    });
 };
 
 
@@ -26,8 +54,47 @@ const getArticle = (req, res) => {
 
 
 const createArticle = (req, res) => {
-  logger.info('Creating article');
-  res.status(201);
+  logger.info('Processing request at POST /api/articles: Creating or updating article content');
+  
+  // error handling
+  const reqBody = req.body;
+  if (!reqBody || !reqBody.hasOwnProperty(DATA_KEY) || !reqBody.hasOwnProperty(CONTENT_KEY)) {
+    res.status(400).json({
+      error: 'malformed request body. Ensure requried properties are included.'
+    });
+  }
+
+  const metadata = reqBody[DATA_KEY];
+  if (!metadata.hasOwnProperty(ID_KEY) || !metadata.hasOwnProperty(TITLE_KEY)) {
+    res.status(400).json({
+      error: 'malformed request body. "data" object is missing required properties.'
+    });
+  }
+
+  // assemble document data
+  let docData = {
+    title: metadata[TITLE_KEY], 
+    content: reqBody[CONTENT_KEY], 
+    date: Date.now()
+  };
+
+  if (metadata.hasOwnProperty(SUBTITLE_KEY)) {
+    docData.subtitle = metadata[SUBTITLE_KEY]
+  }
+  if (metadata.hasOwnProperty(THUMBNAIL_KEY)) {
+    docData.thumbnail = metadata[THUMBNAIL_KEY]
+  }
+
+  // create or update document
+  const db = admin.firestore();
+  db.collection('articles')
+    .doc(metadata[ID_KEY])
+    .set(docData)
+    .then(() => {
+      res.status(201).json({
+        'message': 'article successfully uploaded.'
+      });
+    });
 };
 
 
