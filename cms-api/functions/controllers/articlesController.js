@@ -45,11 +45,34 @@ const getAllArticles = (req, res) => {
 
 const getArticle = (req, res) => {
   const id = req.params.id;
+  logger.info(`Processing request at GET /api/articles/{id}: Getting article with id: ${id}`);
 
-  logger.info ('responding to request for specific article');
-  res.json({
-    message: `Requested article with id: ${id}`
-  });
+  const db = admin.firestore();
+  const articleRef = db.collection('articles').doc(id);
+  articleRef.get()
+    .then((articleSnapshot) => {
+      // check if article exists
+      if (!articleSnapshot.exists) {
+        res.status(404).json({
+          message: `No article with id: ${id} was found`
+        });
+        return;
+      }
+
+      // article exists, return it to user
+      const articleData = articleSnapshot.data();
+      const resJson = {
+        data: {
+          id: id, 
+          title: articleData.title, 
+          date: articleData.date, 
+          subtitle: articleData.subtitle, 
+          thumbnail: articleData.thumbnail
+        }, 
+        content: articleData.content
+      };
+      res.status(400).json(resJson);
+    });
 };
 
 
