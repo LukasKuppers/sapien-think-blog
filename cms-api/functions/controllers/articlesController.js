@@ -11,7 +11,7 @@ const CONTENT_KEY = 'content';
 
 
 const getAllArticles = (req, res) => {
-  logger.info('Processing request at GET /api/articles: Getting list of metadata for all articles');
+  logger.info('Processing request at GET /api/articles: Getting list of metadata for all articles.');
 
   const db = admin.firestore();
   const articlesRef = db.collection('articles');
@@ -45,7 +45,7 @@ const getAllArticles = (req, res) => {
 
 const getArticle = (req, res) => {
   const id = req.params.id;
-  logger.info(`Processing request at GET /api/articles/{id}: Getting article with id: ${id}`);
+  logger.info(`Processing request at GET /api/articles/{id}: Getting article with id: ${id}.`);
 
   const db = admin.firestore();
   const articleRef = db.collection('articles').doc(id);
@@ -54,7 +54,7 @@ const getArticle = (req, res) => {
       // check if article exists
       if (!articleSnapshot.exists) {
         res.status(404).json({
-          message: `No article with id: ${id} was found`
+          message: `No article with id: ${id} was found.`
         });
         return;
       }
@@ -77,7 +77,7 @@ const getArticle = (req, res) => {
 
 
 const createArticle = (req, res) => {
-  logger.info('Processing request at POST /api/articles: Creating or updating article content');
+  logger.info('Processing request at POST /api/articles: Creating or updating article content.');
   
   // error handling
   const reqBody = req.body;
@@ -115,7 +115,7 @@ const createArticle = (req, res) => {
     .set(docData)
     .then(() => {
       res.status(201).json({
-        'message': 'article successfully uploaded.'
+        message: 'article successfully uploaded.'
       });
     });
 };
@@ -123,9 +123,23 @@ const createArticle = (req, res) => {
 
 const deleteArticle = (req, res) => {
   const id = req.params.id;
+  logger.info(`Processing request at DELETE /api/articles/{id}: Deleting article with id: ${id}.`);
 
-  logger.info(`Deleting article with id: ${id}`);
-  res.status(204);
+  const db = admin.firestore();
+  const articleRef = db.collection('articles').doc(id);
+  
+  articleRef.delete()
+    .then(() => {
+      res.status(200).json({
+        message: `article with id: ${id} successfully deleted.`
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        error: 'an internal server error occured.'
+      });
+      logger.error('articlesController.js: deleteArticle(): error encountered', error);
+    });
 }
 
 
