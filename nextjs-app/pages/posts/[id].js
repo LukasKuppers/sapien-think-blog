@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Image from 'next/image';
 
 import { getAllArticleIds, getArticleData } from '../../lib/articles';
 import DateDisplay from '../../components/date';
@@ -47,7 +48,13 @@ const Post = ({ articleData }) => {
           <DateDisplay timestamp={articleData.data.date} />
         </div>
         <br />
-        <hr />
+        {articleData.data.thumbnail ? 
+          <img 
+            src={articleData.data.thumbnail}
+            alt='article thumbnail image'
+            style={{width: '100%'}}
+          /> : 
+          <hr />}
         <br />
         <div className={styles.articleContentContainer}>
           <div
