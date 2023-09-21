@@ -1,4 +1,8 @@
 const axios = require('axios');
+import { unified } from 'unified';
+import remarkParse from 'remark-parse';
+import remarkHtml from 'remark-html';
+
 
 const PROD_ENV_NAME = 'prod';
 
@@ -29,6 +33,15 @@ export async function getArticleData(articleId) {
   try {
     const res = await axios.get(url);
     const resData = res.data;
+    const markdownString = resData.content;
+
+    // convert markdown to html
+    const processedContent = await unified()
+      .use(remarkParse)
+      .use(remarkHtml)
+      .process(markdownString);
+      
+    resData.content = processedContent.toString();
     return resData;
   } catch (error) {
     console.error('articles.js: getArticleData(): Error encountered fetching article:', error);

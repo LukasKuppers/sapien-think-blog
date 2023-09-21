@@ -23,8 +23,6 @@ export async function getStaticProps({ params }) {
   // const postData = await getPostData(params.id);
   const articleData = await getArticleData(params.id);
 
-  console.log(`DEBUG_1: ${JSON.stringify(articleData)}`);
-
   return {
     props: {
       articleData
