@@ -19,6 +19,9 @@ const getAllArticles = (req, res) => {
   // query firebase for all articles
   articlesRef.listDocuments()
     .then((articleRefs) => {
+      if (articleRefs.length === 0) {
+       return [];
+      }
       return db.getAll(...articleRefs);
     })
     .then((articleSnapshots) => {
@@ -71,7 +74,7 @@ const getArticle = (req, res) => {
         }, 
         content: articleData.content
       };
-      res.status(400).json(resJson);
+      res.status(200).json(resJson);
     });
 };
 
