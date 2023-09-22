@@ -9,9 +9,9 @@ const PROD_ENV_NAME = 'prod';
 
 /**
  * Gets list of all sorted articles (by date desc)
- * returns list in form:
+ * @returns List in form:
  * [{ params: { id, title, subtitle, date, thumbnail } }]
- * Note: subtitle and thumbnial may not be present in all posts
+ * > Note: subtitle and thumbnial may not be present in all posts
  */
 export async function getAllArticleIds() {
   const url = getCmsUrl('/api/articles');
@@ -27,6 +27,11 @@ export async function getAllArticleIds() {
 }
 
 
+/**
+ * Gets complete article data corresponding to provided ID
+ * @param {String} articleId - unique ID of article 
+ * @returns object containing article data - id, title, date, and content are garunteed
+ */
 export async function getArticleData(articleId) {
   const url = getCmsUrl(`/api/articles/${articleId}`);
 
