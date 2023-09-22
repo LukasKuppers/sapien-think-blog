@@ -33,6 +33,7 @@ export async function getArticleData(articleId) {
   try {
     const res = await axios.get(url);
     const resData = res.data;
+
     const markdownString = resData.content;
 
     // convert markdown to html
@@ -41,8 +42,14 @@ export async function getArticleData(articleId) {
       .use(remarkHtml)
       .process(markdownString);
       
-    resData.content = processedContent.toString();
-    return resData;
+    return {
+      id: resData.data.id, 
+      title: resData.data.title, 
+      subtitle: resData.data.subtitle, 
+      date: resData.data.date, 
+      thumbnail: resData.data.thumbnail, 
+      content: processedContent.toString()
+    };
   } catch (error) {
     console.error('articles.js: getArticleData(): Error encountered fetching article:', error);
     return {};

@@ -36,21 +36,21 @@ const Post = ({ articleData }) => {
   return (
     <div className={`${styles.pageContainer} ${utilStyles.colThemeBg}`}>
       <Head>
-        <title>{articleData.data.title}</title>
+        <title>{articleData.title}</title>
       </Head>
-      <TopBar title={articleData.data.title} scrollThresholdPx={200} />
+      <TopBar title={articleData.title} scrollThresholdPx={200} />
 
       <article className={styles.articleContainer}>
-        <h1 className={`${jetBrainsMonoBold.className} ${utilStyles.heading2Xl}`}>{articleData.data.title}</h1>
-        {articleData.data.subtitle ? 
-          <span className={`${montserrat.className} ${utilStyles.headingLg}`}>{articleData.data.subtitle}</span> : ''}
+        <h1 className={`${jetBrainsMonoBold.className} ${utilStyles.heading2Xl}`}>{articleData.title}</h1>
+        {articleData.subtitle ? 
+          <span className={`${montserrat.className} ${utilStyles.headingLg}`}>{articleData.subtitle}</span> : ''}
         <div className={utilStyles.lightText}>
-          <DateDisplay timestamp={articleData.data.date} />
+          <DateDisplay timestamp={articleData.date} />
         </div>
         <br />
-        {articleData.data.thumbnail ? 
+        {articleData.thumbnail ? 
           <img 
-            src={articleData.data.thumbnail}
+            src={articleData.thumbnail}
             alt='article thumbnail image'
             style={{width: '100%'}}
           /> : 
