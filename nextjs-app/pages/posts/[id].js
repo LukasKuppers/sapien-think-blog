@@ -13,6 +13,7 @@ export async function getStaticPaths() {
   // const paths = getAllPostIds();
   const paths = await getAllArticleIds();
 
+  // currently rendering all existent articles at build time
   return {
     paths, 
     fallback: false // ensure any paths not returned from getStaticPaths will result in 404 page
