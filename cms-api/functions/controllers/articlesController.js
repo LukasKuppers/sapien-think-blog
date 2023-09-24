@@ -1,4 +1,5 @@
 const logger = require('firebase-functions/logger');
+const axios = require('axios');
 
 const admin = require('../admin');
 
@@ -82,8 +83,6 @@ const getArticle = (req, res) => {
 const createArticle = (req, res) => {
   logger.info('Processing request at POST /api/articles: Creating or updating article content.');
   
-  logger.debug(`Checking if next host is available: hostname: ${process.env.NEXT_HOST}`)
-
   // error handling
   const reqBody = req.body;
   if (!reqBody || !reqBody.hasOwnProperty(DATA_KEY) || !reqBody.hasOwnProperty(CONTENT_KEY)) {
@@ -119,6 +118,9 @@ const createArticle = (req, res) => {
     .doc(metadata[ID_KEY])
     .set(docData)
     .then(() => {
+      // make request to next server to revalidate article
+      requestArticleRebuild(metadata[ID_KEY]);
+
       res.status(201).json({
         message: 'article successfully uploaded.'
       });
@@ -146,6 +148,23 @@ const deleteArticle = (req, res) => {
       logger.error('articlesController.js: deleteArticle(): error encountered', error);
     });
 }
+
+
+// helper to make request to next app to revalidate the specified article
+// should be called when pages are created or udpate (or deleted?)
+const requestArticleRebuild = async (articleId) => {
+  try {
+    let requestUrl = `${process.env.NEXT_HOST}/api/revalidate?`;
+    requestUrl += `secret=${process.env.NEXT_REVALIDATE_TOKEN}`;
+    requestUrl += `&articleId=${articleId}`;
+
+    const response = await axios.post(requestUrl);
+    return response;
+  } catch (error) {
+    console.error('articlesController: requestArticleRebuild: Error encountered request revalidation:', error);
+    return null;
+  }
+};
 
 
 module.exports = {
