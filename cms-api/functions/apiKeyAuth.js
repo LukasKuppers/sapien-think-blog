@@ -12,8 +12,11 @@ const authenticateAPIKey = async (req, res, next) => {
     res.status(401).json({
       error: 'unauthorized. Provide valid api key in api-key header.'
     });
+  } else {
+    logger.info('API key authentication success: Provided key is valid.');
+    next();
   }
-
-  logger.info('API key authentication success: Provided key is valid.');
-  next();
 };
+
+
+module.exports = authenticateAPIKey;
