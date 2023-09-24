@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import Image from 'next/image';
 
 import { getAllArticleIds, getArticleData } from '../../lib/articles';
 import DateDisplay from '../../components/date';
@@ -10,19 +9,17 @@ import { jetBrainsMonoBold, jetBrainsMono, merriweather, montserrat } from '../.
 
 
 export async function getStaticPaths() {
-  // const paths = getAllPostIds();
   const paths = await getAllArticleIds();
 
   // currently rendering all existent articles at build time
   return {
     paths, 
-    fallback: false // ensure any paths not returned from getStaticPaths will result in 404 page
+    fallback: 'blocking' // ensure any paths not returned from getStaticPaths will result in 404 page
   };
 }
 
 
 export async function getStaticProps({ params }) {
-  // const postData = await getPostData(params.id);
   const articleData = await getArticleData(params.id);
 
   return {
