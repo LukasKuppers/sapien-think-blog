@@ -17,7 +17,10 @@ export async function getAllArticleIds() {
   const url = getCmsUrl('/api/articles');
 
   try {
-    const res = await axios.get(url);
+    const headers = {
+      'api-key': process.env.CMS_API_KEY
+    };
+    const res = await axios.get(url, { headers });
     const resData = res.data;
     return resData.articles;
   } catch(error) {
@@ -36,7 +39,10 @@ export async function getArticleData(articleId) {
   const url = getCmsUrl(`/api/articles/${articleId}`);
 
   try {
-    const res = await axios.get(url);
+    const headers = {
+      'api-key': process.env.CMS_API_KEY
+    };
+    const res = await axios.get(url, { headers });
     const resData = res.data;
 
     const markdownString = resData.content;
