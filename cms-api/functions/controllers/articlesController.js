@@ -82,7 +82,7 @@ const getArticle = (req, res) => {
 const createArticle = (req, res) => {
   logger.info('Processing request at POST /api/articles: Creating or updating article content.');
   
-  logger.debug(`Checking if API secret available: TOKEN: ${process.env.NEXT_REVALIDATE_TOKEN}`)
+  logger.debug(`Checking if next host is available: hostname: ${process.env.NEXT_HOST}`)
 
   // error handling
   const reqBody = req.body;
