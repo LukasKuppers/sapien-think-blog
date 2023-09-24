@@ -2,6 +2,12 @@
 
 REST API to interface with articles DB.
 
+## Authorization:
+
+Every request must include the `api-key` header, which includes a valid api-key.
+
+#
+
 Endpoints:
 - [GET /api/articles](#list-all-articles)
 - [GET /api/articles/{id}](#get-article-by-id)
