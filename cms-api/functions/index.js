@@ -10,4 +10,6 @@ const app = express();
 app.use('/api', router);
 
 
-exports.app = functions.https.onRequest(app);
+exports.app = functions
+  .runWith({ secrets: ['NEXT_REVALIDATE_TOKEN'] })
+  .https.onRequest(app);

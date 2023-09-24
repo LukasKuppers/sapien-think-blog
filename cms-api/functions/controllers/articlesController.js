@@ -82,6 +82,8 @@ const getArticle = (req, res) => {
 const createArticle = (req, res) => {
   logger.info('Processing request at POST /api/articles: Creating or updating article content.');
   
+  logger.debug(`Checking if API secret available: TOKEN: ${process.env.NEXT_REVALIDATE_TOKEN}`)
+
   // error handling
   const reqBody = req.body;
   if (!reqBody || !reqBody.hasOwnProperty(DATA_KEY) || !reqBody.hasOwnProperty(CONTENT_KEY)) {
