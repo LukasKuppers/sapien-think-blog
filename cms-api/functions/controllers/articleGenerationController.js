@@ -2,6 +2,7 @@ const logger = require('firebase-functions/logger');
 
 const { getTopKeyword, markTopKeywordAsComplete } = require('../util/remoteKeywords');
 const { generateArticleContent, generateArticleSubtitle, generateArticleImageSearchTerm } = require('../util/openai');
+const { getRandomImage } = require('../util/unsplash');
 
 
 /**
@@ -14,10 +15,10 @@ const generateArticle = () => {
     .then(async (keywordData) => {
       logger.debug(`Receieved keyword from airtable: ${keywordData.keyword} id: ${keywordData.id}`);
 
-      const subtitle = await generateArticleSubtitle(keywordData.keyword);
-      const searchTerm = await generateArticleImageSearchTerm(keywordData.keyword);
+      const imgData = await getRandomImage('outer space');
+      
 
-      logger.debug(`Receieved article data: subtitle: ${subtitle}, search term: ${searchTerm}`);
+      logger.debug(`Receieved image data: description: ${imgData.alt_text}, link: ${imgData.regular_link}`);
     });
 };
 
