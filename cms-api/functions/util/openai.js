@@ -13,41 +13,125 @@ const APROX_LENGTH = '1000';
  * @returns markdown string containing article content
  */
 const generateArticleContent = async (articleTitle) => {
-  const requestHeaders = {
-    'Content-Type': 'application/json', 
-    Authorization: `Bearer ${API_KEY}`
-  };
-
-  const messages = generateRequestMessages(articleTitle);
+  const messages = generateArticleRequestMessages(articleTitle);
   const requestBody = {
     model: CHAT_MODEL, 
     messages: messages, 
     max_tokens: 1500
   };
 
+  const completion = await makeOpenaiChatRequest(requestBody);
+  return completion.message.content;
+};
+
+
+/**
+ * Generates a subtitle for a given article title.
+ * 
+ * @param {String} articleTitle 
+ * @returns subtitle
+ */
+const generateArticleSubtitle = async (articleTitle) => {
+  const messages = generateSubtitleRequestMessages(articleTitle);
+  const requestBody = {
+    model: CHAT_MODEL, 
+    messages: messages, 
+    max_tokens: 100
+  };
+
+  const completion = await makeOpenaiChatRequest(requestBody);
+  return completion.message.content;
+};
+
+
+/**
+ * Genereate a search term for a image corresponding to the article title
+ * 
+ * @param {String} articleTitle
+ * @returns search term (String) 
+ */
+const generateArticleImageSearchTerm = async (articleTitle) => {
+   const messages = generateImageSearchRequestMessages(articleTitle);
+   const requestBody = {
+    model: CHAT_MODEL, 
+    messages: messages, 
+    max_tokens: 20
+   };
+
+   const completion = await makeOpenaiChatRequest(requestBody);
+   return completion.message.content;
+};
+
+
+/**
+ * Makes a post request to the openai chat completion api.
+ * 
+ * @param {Object} requestBody - openai chat completion request body object 
+ * @returns chat completion choice object with keys:
+ * - index
+ * - message: object with more keys: (role: response role, content: response content)
+ * - finish_reason
+ */
+const makeOpenaiChatRequest = async (requestBody) => {
+  const requestHeaders = {
+    'Content-Type': 'application/json', 
+    Authorization: `Bearer ${API_KEY}`
+  };
+
   const response = await axios.post(API_URL, requestBody, { headers: requestHeaders });
   const completion = response.data.choices[0];
-
-  return completion.message.content;
+  return completion;
 };
 
 
 /**
  * Generate the messages array to be used in a prompt to genereate article markdown
  * @param {String} articleTitle 
- * @returns an array of messages, in the form: [ { role: <role>, content: <msg> }, ... ]
+ * @returns messages array
  */
-const generateRequestMessages = (articleTitle) => {
+const generateArticleRequestMessages = (articleTitle) => {
   const SYS_MSG = 'You write academic articles for a philosophy blog';
   const USR_MSG = `Write an article for a philosophy blog with the title '${articleTitle}'. The article should be written in standard markdown format. The article should be about ${APROX_LENGTH} words in length. Make sure to reference official sources (such as books). Include a references section at the end of the article.`;
 
+  return formOnePromptMessages(SYS_MSG, USR_MSG);
+};
+
+
+/**
+ * Genereate the messages array to be used in a prompt to genereate article subtitle
+ * @param {String} articleTitle 
+ * @returns messages array
+ */
+const generateSubtitleRequestMessages = (articleTitle) => {
+  const SYS_MSG = 'You write academic articles for a philosophy blog';
+  const USR_MSG = `Create a subtitle for an article with the title '${articleTitle}'.`;
+
+  return formOnePromptMessages(SYS_MSG, USR_MSG);
+}
+
+/**
+ * Genereate the messages array to be used in a prompt to genereate image search term
+ * @param {String} articleTitle 
+ * @returns messages array
+ */
+const generateImageSearchRequestMessages = (articleTitle) => {
+  const SYS_MSG = 'You write academic articles for a philosophy blog';
+  const USR_MSG = `Create a search term for an image to be placed on an article with the title '${articleTitle}'. Be creative and abstract. The search term should not include the article title.`;
+
+  return formOnePromptMessages(SYS_MSG, USR_MSG);
+}
+
+
+const formOnePromptMessages = (sysMsg, usrMsg) => {
   return [
-    { role: 'system', content: SYS_MSG }, 
-    { role: 'user', content: USR_MSG }
+    { role: 'system', content: sysMsg }, 
+    { role: 'user', content: usrMsg }
   ];
 };
 
 
 module.exports = {
-  generateArticleContent
+  generateArticleContent, 
+  generateArticleSubtitle, 
+  generateArticleImageSearchTerm
 };

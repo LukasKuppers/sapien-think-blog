@@ -1,7 +1,7 @@
 const logger = require('firebase-functions/logger');
 
 const { getTopKeyword, markTopKeywordAsComplete } = require('../util/remoteKeywords');
-const { generateArticleContent } = require('../util/openai');
+const { generateArticleContent, generateArticleSubtitle, generateArticleImageSearchTerm } = require('../util/openai');
 
 
 /**
@@ -14,9 +14,10 @@ const generateArticle = () => {
     .then(async (keywordData) => {
       logger.debug(`Receieved keyword from airtable: ${keywordData.keyword} id: ${keywordData.id}`);
 
-      const content = await generateArticleContent(keywordData.keyword);
+      const subtitle = await generateArticleSubtitle(keywordData.keyword);
+      const searchTerm = await generateArticleImageSearchTerm(keywordData.keyword);
 
-      logger.debug(`Receieved article content: ${content}`);
+      logger.debug(`Receieved article data: subtitle: ${subtitle}, search term: ${searchTerm}`);
     });
 };
 
