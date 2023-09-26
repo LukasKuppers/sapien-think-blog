@@ -11,10 +11,17 @@ const generateArticle = () => {
 
   getTopKeyword()
     .then((keywordData) => {
-      logger.debug(`Received keyword data: keyword: ${keywordData.keyword}, statusCell: ${keywordData.statusCell}`);
+      logger.debug(`Receieved keyword from airtable: ${keywordData.keyword} id: ${keywordData.id}`);
 
-      markTopKeywordAsComplete(keywordData.statusCell);
+      markTopKeywordAsComplete(keywordData.id);
     });
+
+  // getTopKeyword()
+  //   .then((keywordData) => {
+  //     logger.debug(`Received keyword data: keyword: ${keywordData.keyword}, statusCell: ${keywordData.statusCell}`);
+
+  //     markTopKeywordAsComplete(keywordData.statusCell);
+  //   });
 };
 
 
