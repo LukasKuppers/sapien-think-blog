@@ -2,19 +2,19 @@ const logger = require('firebase-functions/logger');
 
 const admin = require('../admin');
 
-const DATA_KEY = 'data';
-const ID_KEY = 'id';
-const TITLE_KEY = 'title';
-const SUBTITLE_KEY = 'subtitle';
-const THUMBNAIL_KEY = 'thumbnail';
-const CONTENT_KEY = 'content';
+const COLLECTION = 'articles'
 
 
+/**
+ * Gets list of all articles in the database
+ * 
+ * @returns array of article metadata, in form specified in API docs. 
+ */
 const getArticlesList = async () => {
   logger.info('[articlesFirestoreInterface] Getting article list.');
 
   const db = admin.firestore();
-  const articlesRef = db.collection('articles');
+  const articlesRef = db.collection(COLLECTION);
   let articleSnapshots = [];
 
   // query firebase for all articles
@@ -39,7 +39,7 @@ const getArticlesList = async () => {
           title: metadata.title, 
           date: metadata.date, 
           subtitle: metadata.subtitle, 
-          thumbnail: metadata.thumbnail
+          thumbnail_link: metadata.thumbnail
         }
       };
     });
@@ -48,11 +48,17 @@ const getArticlesList = async () => {
 };
 
 
+/**
+ * Gets all article data for a specific article, if it exists.
+ * 
+ * @param {String} articleId 
+ * @returns null on error, or article data in format specified in API docs.
+ */
 const getArticle = async (articleId) => {
   logger.info(`[articlesFirestoreInterface] Getting article with id: ${articleId}.`);
 
   const db = admin.firestore();
-  const articleRef = db.collection('articles').doc(articleId);
+  const articleRef = db.collection(COLLECTION).doc(articleId);
   let articleSnapshot;
 
   // query db for article record
@@ -84,40 +90,23 @@ const getArticle = async (articleId) => {
 };
 
 
+/**
+ * Creates or updates an article document in firestore.
+ * 
+ * @param {Object} articleData - object containing article data - assumed to be in correct form. See API docs.
+ * @returns true iff document creation/update was successful.
+ */
 const createArticle = async (articleData) => {
   logger.info('[articlesFirestoreInterface] Creating or updating article content.');
+  // assumes that input data is properly formatted
   
-  // error handling
-  if (!articleData || !articleData.hasOwnProperty(DATA_KEY) || !articleData.hasOwnProperty(CONTENT_KEY)) {
-    return false;
-  }
-
-  const metadata = reqBody[DATA_KEY];
-  if (!metadata.hasOwnProperty(ID_KEY) || !metadata.hasOwnProperty(TITLE_KEY)) {
-    return false;
-  }
-
-  // assemble document data
-  let docData = {
-    title: metadata[TITLE_KEY], 
-    content: articleData[CONTENT_KEY], 
-    date: Date.now()
-  };
-
-  if (metadata.hasOwnProperty(SUBTITLE_KEY)) {
-    docData.subtitle = metadata[SUBTITLE_KEY]
-  }
-  if (metadata.hasOwnProperty(THUMBNAIL_KEY)) {
-    docData.thumbnail = metadata[THUMBNAIL_KEY]
-  }
-
   // create or update document
   const db = admin.firestore();
 
   try {
-    await db.collection('articles')
-      .doc(metadata[ID_KEY])
-      .set(docData);
+    await db.collection(COLLECTION)
+      .doc(articleData.metadata.id)
+      .set(articleData);
   } catch (error) {
     logger.error('[articlesFirestoreInterface] createArticle: error encountered when writing document:', error);
     return false;
@@ -127,11 +116,17 @@ const createArticle = async (articleData) => {
 };
 
 
+/**
+ * Deletes an article document in firestore.
+ * 
+ * @param {String} articleId 
+ * @returns true iff document deletion was successful.
+ */
 const deleteArticle = async (articleId) => {
   logger.info(`[articlesFirestoreInterface] Deleting article with id: ${articleId}.`);
 
   const db = admin.firestore();
-  const articleRef = db.collection('articles').doc(articleId);
+  const articleRef = db.collection(COLLECTION).doc(articleId);
   
   try {
     await articleRef.delete();
