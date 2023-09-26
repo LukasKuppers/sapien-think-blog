@@ -68,6 +68,8 @@ Returns a JSON text body in the following format:
 }
 ```
 
+> Note: image field is optional - some articles may not include images
+
 ### Returns:
 - 200 - if the article was found and sent.
 - 404 - if the article with `id` does not exist.
@@ -87,7 +89,6 @@ Required JSON format:
   "metadata": {
     "id": <unique article id>, 
     "title": <article title>, 
-    "date": <article publish (creation) date>
     "subtitle": <optional | article subtitle>, 
   }, 
   "image": {
@@ -101,6 +102,8 @@ Required JSON format:
   "content": <Article content in markdown format>
 }
 ```
+
+> Note: image object is optional - articles need not include images
 
 ### Returns:
 - 201 - if the article was created.
