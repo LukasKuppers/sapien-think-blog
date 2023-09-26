@@ -30,7 +30,7 @@ Returns a JSON text body in the following format:
         "title": <article title>,
         "date": <article publish (creation) date> 
         "subtitle": <optional | article subtitle>, 
-        "thumbnail": <optional | link to article image>
+        "thumbnail_link": <optional | link to article thumbnail image>
       }
     }, 
     ...
@@ -50,19 +50,23 @@ Get the article content with unique identifier `id`, if it exists.
 Returns a JSON text body in the following format:
 ```
 {
-  "data": {
+  "metadata": {
     "id": <unique article id>, 
     "title": <article title>, 
     "date": <article publish (creation) date>
     "subtitle": <optional | article subtitle>, 
-    "thumbnail": <optional | link to article image>
+  }, 
+  "image": {
+    "regular_link": <the link used to display the full image>, 
+    "thumbnail_link": <the link used to display the thumbnail image>
+    "alt_text": <text description of the image>
+    "download_link": <link used to trigger a download event>
+    "photographer_username": <unsplash username of photographer>
+    "photographer_name": <real photographer name>
   }, 
   "content": <Article content in markdown format>
 }
 ```
-
-> [!WARNING]
-> `GET /api/articles/{id}` should not be used for building static blog content - as it could incurr hosting costs if the blog is getting built frequently (with many articles). Instead, directly access firestore for UI builds.
 
 ### Returns:
 - 200 - if the article was found and sent.
@@ -80,13 +84,21 @@ Accepts a JSON text body containing the article data.
 Required JSON format:
 ```
 {
-  "data": {
-    "id": <unique article id: ex: "article-title">, 
+  "metadata": {
+    "id": <unique article id>, 
     "title": <article title>, 
-    "subtitle": <optional | subtitle>
-    "thumbnail": <optional | link to article image>
+    "date": <article publish (creation) date>
+    "subtitle": <optional | article subtitle>, 
   }, 
-  "content": <markdown containing article content>
+  "image": {
+    "regular_link": <the link used to display the full image>, 
+    "thumbnail_link": <the link used to display the thumbnail image>
+    "alt_text": <text description of the image>
+    "download_link": <link used to trigger a download event>
+    "photographer_username": <unsplash username of photographer>
+    "photographer_name": <real photographer name>
+  }, 
+  "content": <Article content in markdown format>
 }
 ```
 
