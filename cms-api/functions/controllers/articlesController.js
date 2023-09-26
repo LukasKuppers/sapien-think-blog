@@ -61,9 +61,6 @@ const createArticle = (req, res) => {
     }
   }
 
-  // append date to request body
-  reqBody.metadata.date = Date.now();
-
   // create/update document
   articlesDb.createArticle(reqBody)
     .then((success) => {

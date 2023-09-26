@@ -89,6 +89,8 @@ const createArticle = async (articleData) => {
   logger.info('[articlesFirestoreInterface] Creating or updating article content.');
   // assumes that input data is properly formatted
   
+  articleData.metadata.date = Date.now();
+
   // create or update document
   const db = admin.firestore();
 
