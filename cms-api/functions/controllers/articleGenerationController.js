@@ -1,5 +1,7 @@
 const logger = require('firebase-functions/logger');
 
+const { requestArticleRebuild } = require('../util/nextAppRevalidate')
+const { createArticle } = require('./articlesFirestoreInterface');
 const { getTopKeyword, markTopKeywordAsComplete } = require('../util/remoteKeywords');
 const { generateArticleContent, generateArticleSubtitle, generateArticleImageSearchTerm } = require('../util/openai');
 const { getRandomImage } = require('../util/unsplash');
@@ -8,18 +10,51 @@ const { getRandomImage } = require('../util/unsplash');
 /**
  * Top-level function to generate and upload a new article
  */
-const generateArticle = () => {
-  logger.info('[articleGenerationController] Processing request to generate new article');
+const generateArticle = async () => {
+  logger.info('[articleGenerationController] Processing request to generate new article.');
 
-  getTopKeyword()
-    .then(async (keywordData) => {
-      logger.debug(`Receieved keyword from airtable: ${keywordData.keyword} id: ${keywordData.id}`);
+  const keywordData = await getTopKeyword();
+  const articleTitle = keywordData.keyword;
+  const articleId = getIdFromTitle(articleTitle);
 
-      const imgData = await getRandomImage('outer space');
-      
+  const imageSearchTerm = await generateArticleImageSearchTerm(articleTitle);
 
-      logger.debug(`Receieved image data: description: ${imgData.alt_text}, link: ${imgData.regular_link}`);
+  Promise.all([
+    generateArticleContent(articleTitle), 
+    generateArticleSubtitle(articleTitle), 
+    getRandomImage(imageSearchTerm)])
+    .then(([articleContent, articleSubtitle, imgData]) => {
+      logger.info('[articleGenerationController] All article data successfully generated.');
+
+      // format article data and request document creation in firebase
+      const articleData = {
+        metadata: {
+          id: articleId, 
+          title: articleTitle, 
+          subtitle: articleSubtitle
+        }, 
+        image: imgData, 
+        content: articleContent
+      };
+
+      return createArticle(articleData);
+    })
+    .then((success) => {
+      if (success) {
+        logger.info('[articleGenerationController] document creation succeeded.');
+        // request UI app to build new page
+        requestArticleRebuild(articleId);
+      } else {
+        logger.error('[articleGenerationController] Error encountered when creating doc in firestore.');
+      }
     });
+};
+
+const getIdFromTitle = (articleTitle) => {
+  let id = articleTitle.toLowerCase();
+  id = id.trim();
+
+  return id.replace(/ /g, '-');
 };
 
 

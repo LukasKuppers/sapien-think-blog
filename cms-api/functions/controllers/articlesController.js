@@ -1,8 +1,7 @@
 const logger = require('firebase-functions/logger');
-const axios = require('axios');
 
-const admin = require('../admin');
 const articlesDb = require('./articlesFirestoreInterface');
+const { requestArticleRebuild } = require('../util/nextAppRevalidate');
 
 
 const getAllArticles = (req, res) => {
@@ -100,23 +99,6 @@ const deleteArticle = (req, res) => {
       }
     });
 }
-
-
-// helper to make request to next app to revalidate the specified article
-// should be called when pages are created or udpate (or deleted?)
-const requestArticleRebuild = async (articleId) => {
-  try {
-    let requestUrl = `${process.env.NEXT_HOST}/api/revalidate?`;
-    requestUrl += `secret=${process.env.NEXT_REVALIDATE_TOKEN}`;
-    requestUrl += `&articleId=${articleId}`;
-
-    const response = await axios.post(requestUrl);
-    return response;
-  } catch (error) {
-    console.error('articlesController: requestArticleRebuild: Error encountered request revalidation:', error);
-    return null;
-  }
-};
 
 
 module.exports = {
