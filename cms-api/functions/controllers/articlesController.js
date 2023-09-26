@@ -2,47 +2,15 @@ const logger = require('firebase-functions/logger');
 const axios = require('axios');
 
 const admin = require('../admin');
-
-const DATA_KEY = 'data';
-const ID_KEY = 'id';
-const TITLE_KEY = 'title';
-const SUBTITLE_KEY = 'subtitle';
-const THUMBNAIL_KEY = 'thumbnail';
-const CONTENT_KEY = 'content';
+const articlesDb = require('./articlesFirestoreInterface');
 
 
 const getAllArticles = (req, res) => {
   logger.info('Processing request at GET /api/articles: Getting list of metadata for all articles.');
 
-  const db = admin.firestore();
-  const articlesRef = db.collection('articles');
-
-  // query firebase for all articles
-  articlesRef.listDocuments()
-    .then((articleRefs) => {
-      if (articleRefs.length === 0) {
-       return [];
-      }
-      return db.getAll(...articleRefs);
-    })
-    .then((articleSnapshots) => {
-      // filter out non-extant articles and format output list
-      const formattedArticleList = articleSnapshots
-        .filter((article) => article.exists)
-        .map((article) => {
-          const metadata = article.data();
-          return {
-            params: {
-              id: article.id, 
-              title: metadata.title, 
-              date: metadata.date, 
-              subtitle: metadata.subtitle, 
-              thumbnail: metadata.thumbnail
-            }
-          };
-        });
-
-      res.status(200).json({articles: formattedArticleList});
+  articlesDb.getArticlesList()
+    .then((articles) => {
+      res.status(200).json({ articles: articles });
     });
 };
 
@@ -51,31 +19,15 @@ const getArticle = (req, res) => {
   const id = req.params.id;
   logger.info(`Processing request at GET /api/articles/{id}: Getting article with id: ${id}.`);
 
-  const db = admin.firestore();
-  const articleRef = db.collection('articles').doc(id);
-  articleRef.get()
-    .then((articleSnapshot) => {
-      // check if article exists
-      if (!articleSnapshot.exists) {
+  articlesDb.getArticle(id)
+    .then((articleData) => {
+      if (!articleData) {
         res.status(404).json({
           message: `No article with id: ${id} was found.`
         });
-        return;
+      } else {
+        res.status(200).json(articleData);
       }
-
-      // article exists, return it to user
-      const articleData = articleSnapshot.data();
-      const resJson = {
-        data: {
-          id: id, 
-          title: articleData.title, 
-          date: articleData.date, 
-          subtitle: articleData.subtitle, 
-          thumbnail: articleData.thumbnail
-        }, 
-        content: articleData.content
-      };
-      res.status(200).json(resJson);
     });
 };
 
@@ -83,47 +35,47 @@ const getArticle = (req, res) => {
 const createArticle = (req, res) => {
   logger.info('Processing request at POST /api/articles: Creating or updating article content.');
   
-  // error handling
+  // enforce request format
   const reqBody = req.body;
-  if (!reqBody || !reqBody.hasOwnProperty(DATA_KEY) || !reqBody.hasOwnProperty(CONTENT_KEY)) {
-    res.status(400).json({
-      error: 'malformed request body. Ensure requried properties are included.'
+  if (!reqBody.hasOwnProperty('metadata') || !reqBody.hasOwnProperty('content')) {
+    return res.status(400).json({
+      error: 'Request body is missing required fields: "metadata" and "content" must be included.'
     });
   }
 
-  const metadata = reqBody[DATA_KEY];
-  if (!metadata.hasOwnProperty(ID_KEY) || !metadata.hasOwnProperty(TITLE_KEY)) {
-    res.status(400).json({
-      error: 'malformed request body. "data" object is missing required properties.'
+  // check required fields in metadata
+  if (!reqBody.metadata.hasOwnProperty('id') || !reqBody.metadata.hasOwnProperty('title')) {
+    return res.status(400).json({
+      error: 'Request metadata is missing required fields: "id" and "title" must be included.'
     });
   }
 
-  // assemble document data
-  let docData = {
-    title: metadata[TITLE_KEY], 
-    content: reqBody[CONTENT_KEY], 
-    date: Date.now()
-  };
-
-  if (metadata.hasOwnProperty(SUBTITLE_KEY)) {
-    docData.subtitle = metadata[SUBTITLE_KEY]
-  }
-  if (metadata.hasOwnProperty(THUMBNAIL_KEY)) {
-    docData.thumbnail = metadata[THUMBNAIL_KEY]
-  }
-
-  // create or update document
-  const db = admin.firestore();
-  db.collection('articles')
-    .doc(metadata[ID_KEY])
-    .set(docData)
-    .then(() => {
-      // make request to next server to revalidate article
-      requestArticleRebuild(metadata[ID_KEY]);
-
-      res.status(201).json({
-        message: 'article successfully uploaded.'
+  // check required fields in image
+  if (reqBody.hasOwnProperty('image')) {
+    if (!reqBody.image.hasOwnProperty('regular_link') || !reqBody.image.hasOwnProperty('thumbnail_link') ||
+        !reqBody.image.hasOwnProperty('alt_text') || !reqBody.image.hasOwnProperty('download_link') ||
+        !reqBody.image.hasOwnProperty('photographer_username') || !reqBody.image.hasOwnProperty('photographer_name'))
+    {
+      return res.status(400).json({
+        error: 'Request image is missing required fields: see API docs for more info.'
       });
+    }
+  }
+
+  // create/update document
+  articlesDb.createArticle(reqBody)
+    .then((success) => {
+      if (success) {
+        res.status(201).json({
+          message: 'Article data upload success.'
+        });
+
+        requestArticleRebuild(reqBody.metadata.id);
+      } else {
+        res.status(500).json({
+          error: 'Internal error encountered while uploading article data.'
+        });
+      }
     });
 };
 
@@ -132,20 +84,17 @@ const deleteArticle = (req, res) => {
   const id = req.params.id;
   logger.info(`Processing request at DELETE /api/articles/{id}: Deleting article with id: ${id}.`);
 
-  const db = admin.firestore();
-  const articleRef = db.collection('articles').doc(id);
-  
-  articleRef.delete()
-    .then(() => {
-      res.status(200).json({
-        message: `article with id: ${id} successfully deleted.`
-      });
-    })
-    .catch((error) => {
-      res.status(500).json({
-        error: 'an internal server error occured.'
-      });
-      logger.error('articlesController.js: deleteArticle(): error encountered', error);
+  articlesDb.deleteArticle(id)
+    .then((success) => {
+      if (success) {
+        res.status(200).json({
+          message: `article with id: ${id} successfully deleted.`
+        });
+      } else {
+        res.status(500).json({
+          error: 'an internal server error occured.'
+        });
+      }
     });
 }
 

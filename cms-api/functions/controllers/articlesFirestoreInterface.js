@@ -75,18 +75,7 @@ const getArticle = async (articleId) => {
 
   // format output object
   const articleData = articleSnapshot.data();
-  const outputData = {
-    data: {
-      id: articleId, 
-      title: articleData.title, 
-      date: articleData.date, 
-      subtitle: articleData.subtitle, 
-      thumbnail: articleData.thumbnail
-    }, 
-    content: articleData.content
-  };
-
-  return outputData;
+  return articleData;
 };
 
 
