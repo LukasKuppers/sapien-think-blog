@@ -1,6 +1,7 @@
 const logger = require('firebase-functions/logger');
 
 const { getTopKeyword, markTopKeywordAsComplete } = require('../util/remoteKeywords');
+const { generateArticleContent } = require('../util/openai');
 
 
 /**
@@ -10,18 +11,13 @@ const generateArticle = () => {
   logger.info('[articleGenerationController] Processing request to generate new article');
 
   getTopKeyword()
-    .then((keywordData) => {
+    .then(async (keywordData) => {
       logger.debug(`Receieved keyword from airtable: ${keywordData.keyword} id: ${keywordData.id}`);
 
-      markTopKeywordAsComplete(keywordData.id);
+      const content = await generateArticleContent(keywordData.keyword);
+
+      logger.debug(`Receieved article content: ${content}`);
     });
-
-  // getTopKeyword()
-  //   .then((keywordData) => {
-  //     logger.debug(`Received keyword data: keyword: ${keywordData.keyword}, statusCell: ${keywordData.statusCell}`);
-
-  //     markTopKeywordAsComplete(keywordData.statusCell);
-  //   });
 };
 
 
