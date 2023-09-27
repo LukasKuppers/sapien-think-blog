@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { getAllArticleIds, getArticleData } from '../../lib/articles';
 import DateDisplay from '../../components/date';
 import TopBar from '../../components/topBar';
+import UnsplashImage from '../../components/unsplashImage';
 import utilStyles from '../../styles/utils.module.css';
 import styles from '../../styles/posts/[id].module.css';
 import { jetBrainsMonoBold, jetBrainsMono, merriweather, montserrat } from '../../lib/fonts';
@@ -46,13 +47,7 @@ const Post = ({ articleData }) => {
           <DateDisplay timestamp={articleData.date} />
         </div>
         <br />
-        {articleData.thumbnail ? 
-          <img 
-            src={articleData.thumbnail}
-            alt='article thumbnail image'
-            style={{width: '100%'}}
-          /> : 
-          <hr />}
+        {articleData.image ? <UnsplashImage imageData={articleData.image} /> : <hr />}
         <br />
         <div className={styles.articleContentContainer}>
           <div

@@ -1,0 +1,16 @@
+.container {
+  text-align: center;
+}
+
+.unsplashImage {
+  width: 100%;
+}
+
+.credits {
+  font-size: smaller;
+}
+
+.credits a {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
