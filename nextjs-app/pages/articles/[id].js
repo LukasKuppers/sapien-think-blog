@@ -1,10 +1,14 @@
 import { getAllArticleIds, getArticleData } from '../../lib/articles';
+import Content404 from '../../components/content404';
 import Layout from '../../components/layout';
 import DateDisplay from '../../components/date';
 import UnsplashImage from '../../components/unsplashImage';
+
 import utilStyles from '../../styles/utils.module.css';
 import styles from '../../styles/posts/[id].module.css';
 import { jetBrainsMonoBold, jetBrainsMono, merriweather, montserrat } from '../../lib/fonts';
+
+const text = require('../../textChunks.json');
 
 
 export async function getStaticPaths() {
@@ -30,6 +34,15 @@ export async function getStaticProps({ params }) {
 
 
 const Post = ({ articleData }) => {
+  if (!articleData || !articleData.hasOwnProperty('content')) {
+    // display 404 page
+    return (
+      <Layout pageTitle={text.notFoundTitle} pageDesc={text.notFoundDesc}>
+        <Content404 />
+      </Layout>
+    )
+  }
+
   return (
     <Layout pageTitle={articleData.title} pageDesc={articleData.subtitle ? articleData.subtitle : articleData.title}>
       <article className={styles.articleContainer}>
