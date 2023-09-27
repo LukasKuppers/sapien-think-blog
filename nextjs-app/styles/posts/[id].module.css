@@ -16,6 +16,7 @@
 /* Colors copied from utils.module.css :( fix if a better way is found */
 
 .articleContentContainer h1 {
+  /*
   font-size: 2rem;
   line-height: 1.3;
   font-weight: 800;
@@ -23,6 +24,8 @@
   margin: 1rem 0;
   font-family: var(--font-jetbrains-mono);
   color: #333333;
+  */
+  display: none;
 }
 
 .articleContentContainer h2 {
