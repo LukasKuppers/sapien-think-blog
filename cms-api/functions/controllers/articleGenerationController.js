@@ -44,6 +44,8 @@ const generateArticle = async () => {
         logger.info('[articleGenerationController] document creation succeeded.');
         // request UI app to build new page
         requestArticleRebuild(articleId);
+        // mark keyword as complete
+        markTopKeywordAsComplete(keywordData.id);
       } else {
         logger.error('[articleGenerationController] Error encountered when creating doc in firestore.');
       }
