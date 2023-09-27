@@ -47,12 +47,20 @@
   margin: 0 0 1.25rem;
 }
 
+.colTheme {
+  color: #F9F9F9;
+}
+
 .colThemeBg {
   background-color: #F9F9F9;
 }
 
 .colPrimary {
   color: #333333
+}
+
+.colPrimaryBg {
+  background-color: #333333
 }
 
 .colSecondary {

@@ -1,6 +1,7 @@
 import Head from 'next/head';
 
 import { getAllArticleIds, getArticleData } from '../../lib/articles';
+import Layout from '../../components/layout';
 import DateDisplay from '../../components/date';
 import TopBar from '../../components/topBar';
 import UnsplashImage from '../../components/unsplashImage';
@@ -33,7 +34,25 @@ export async function getStaticProps({ params }) {
 
 const Post = ({ articleData }) => {
   return (
-    <div className={`${styles.pageContainer} ${utilStyles.colThemeBg}`}>
+    <Layout pageTitle={articleData.title} pageDesc={articleData.subtitle ? articleData.subtitle : articleData.title}>
+      <article className={styles.articleContainer}>
+        <h1 className={`${jetBrainsMonoBold.className} ${utilStyles.heading2Xl}`}>{articleData.title}</h1>
+        {articleData.subtitle ? 
+          <span className={`${montserrat.className} ${utilStyles.headingLg}`}>{articleData.subtitle}</span> : ''}
+        <div className={utilStyles.lightText}>
+          <DateDisplay timestamp={articleData.date} />
+        </div>
+        <br />
+        {articleData.image ? <UnsplashImage imageData={articleData.image} /> : <hr />}
+        <br />
+        <div className={styles.articleContentContainer}>
+          <div
+            className={`${jetBrainsMono.variable} ${jetBrainsMonoBold.variable} ${merriweather.variable}`} 
+            dangerouslySetInnerHTML={{ __html: articleData.content }} />
+        </div>
+      </article>
+    </Layout>
+    /* <div className={`${styles.pageContainer} ${utilStyles.colThemeBg}`}>
       <Head>
         <title>{articleData.title}</title>
       </Head>
@@ -55,7 +74,7 @@ const Post = ({ articleData }) => {
             dangerouslySetInnerHTML={{ __html: articleData.content }} />
         </div>
       </article>
-    </div>
+    </div> */
   );
 };
 
