@@ -52,15 +52,24 @@ export async function getArticleData(articleId) {
       .use(remarkParse)
       .use(remarkHtml)
       .process(markdownString);
-      
-    return {
-      id: resData.data.id, 
-      title: resData.data.title, 
-      subtitle: resData.data.subtitle, 
-      date: resData.data.date, 
-      thumbnail: resData.data.thumbnail, 
+    
+    // required fields:
+    let outputData = {
+      id: resData.metadata.id, 
+      title: resData.metadata.title, 
+      date: resData.metadata.date, 
       content: processedContent.toString()
     };
+
+    // optional fields:
+    if (resData.hasOwnProperty('image')) {
+      outputData.image = resData.image;
+    }
+    if (resData.metadata.hasOwnProperty('subtitle')) {
+      outputData.subtitle = resData.metadata.subtitle;
+    }
+    
+    return outputData;
   } catch (error) {
     console.error('articles.js: getArticleData(): Error encountered fetching article:', error);
     return {};
