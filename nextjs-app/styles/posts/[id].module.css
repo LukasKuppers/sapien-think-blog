@@ -51,3 +51,12 @@
   color: #333333;
   text-decoration: underline;
 }
+
+.articleContainer blockquote {
+  color: #666;
+  border-left: solid #666;
+  border-width: 5px;
+  margin-left: 0;
+  padding-left: 1.5rem;
+  font-style: italic;
+}
