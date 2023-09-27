@@ -1,7 +1,14 @@
+import Layout from "../components/layout";
+import Content404 from "../components/content404";
+
+const text = require('../textChunks.json');
+
 
 const Custom404 = () => {
     return (
-        <h1>404 - Page Not Found</h1>
+        <Layout pageTitle={text.notFoundTitle} pageDesc={text.notFoundDesc}>
+          <Content404 />
+        </Layout>
     );
 };
 
