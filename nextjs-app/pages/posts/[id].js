@@ -52,29 +52,6 @@ const Post = ({ articleData }) => {
         </div>
       </article>
     </Layout>
-    /* <div className={`${styles.pageContainer} ${utilStyles.colThemeBg}`}>
-      <Head>
-        <title>{articleData.title}</title>
-      </Head>
-      <TopBar title={articleData.title} scrollThresholdPx={200} />
-
-      <article className={styles.articleContainer}>
-        <h1 className={`${jetBrainsMonoBold.className} ${utilStyles.heading2Xl}`}>{articleData.title}</h1>
-        {articleData.subtitle ? 
-          <span className={`${montserrat.className} ${utilStyles.headingLg}`}>{articleData.subtitle}</span> : ''}
-        <div className={utilStyles.lightText}>
-          <DateDisplay timestamp={articleData.date} />
-        </div>
-        <br />
-        {articleData.image ? <UnsplashImage imageData={articleData.image} /> : <hr />}
-        <br />
-        <div className={styles.articleContentContainer}>
-          <div
-            className={`${jetBrainsMono.variable} ${jetBrainsMonoBold.variable} ${merriweather.variable}`} 
-            dangerouslySetInnerHTML={{ __html: articleData.content }} />
-        </div>
-      </article>
-    </div> */
   );
 };
 
