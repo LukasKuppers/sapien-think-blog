@@ -9,10 +9,19 @@ Every request must include the `api-key` header, which includes a valid api-key.
 #
 
 Endpoints:
+- [POST /api/generate](#generate-article)
 - [GET /api/articles](#list-all-articles)
 - [GET /api/articles/{id}](#get-article-by-id)
 - [POST /api/articles](#createupdate-article)
 - [DELETE /api/articles/{id}](#delete-article-by-id)
+
+## Generate Article
+
+`POST /api/generate`
+
+Generate an article and upload it to firestore. Also triggers a next.js revalidation of the article.
+
+Article Names are fetched from [airtable](https://airtable.com/app9vAZn1T7YBq027/tbl7CnjcIArSJU3vj/viw30TBH8i1srD6pZ?blocks=hide). In airtalbe, keywords with status `done` or `ignore` will be ignored. Keywords that should be used to generate articles should have status `pending`. The keyword status will automatically be updated to `done` if article generation is successful.
 
 ## List All Articles
 
