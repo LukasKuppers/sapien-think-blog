@@ -1,9 +1,6 @@
-import Head from 'next/head';
-
 import { getAllArticleIds, getArticleData } from '../../lib/articles';
 import Layout from '../../components/layout';
 import DateDisplay from '../../components/date';
-import TopBar from '../../components/topBar';
 import UnsplashImage from '../../components/unsplashImage';
 import utilStyles from '../../styles/utils.module.css';
 import styles from '../../styles/posts/[id].module.css';
