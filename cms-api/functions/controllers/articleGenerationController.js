@@ -56,6 +56,11 @@ const getIdFromTitle = (articleTitle) => {
   let id = articleTitle.toLowerCase();
   id = id.trim();
 
+  const charsToRemove = [":", "'", ";"];
+  charsToRemove.forEach((char) => {
+      id = id.replace(new RegExp(char, 'g'), '');
+  })
+
   return id.replace(/ /g, '-');
 };
 

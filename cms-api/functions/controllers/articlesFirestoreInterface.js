@@ -32,14 +32,15 @@ const getArticlesList = async () => {
   const formattedArticleList = articleSnapshots
     .filter((article) => article.exists)
     .map((article) => {
-      const metadata = article.data();
+      const data = article.data();
+      const thumbnail_link = data.hasOwnProperty('image') ? data.image.thumbnail_link : undefined;
       return {
         params: {
           id: article.id, 
-          title: metadata.title, 
-          date: metadata.date, 
-          subtitle: metadata.subtitle, 
-          thumbnail_link: metadata.thumbnail
+          title: data.metadata.title, 
+          date: data.metadata.date, 
+          subtitle: data.metadata.subtitle, 
+          thumbnail_link: thumbnail_link
         }
       };
     });
