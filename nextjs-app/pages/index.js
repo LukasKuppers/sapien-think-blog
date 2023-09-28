@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 
 import styles from '../styles/index.module.css';
 import utilStyles from '../styles/utils.module.css';
 import Title from '../components/title';
-import { merriweather } from '../lib/fonts';
+import { merriweather, jetBrainsMono } from '../lib/fonts';
 const text = require('../textChunks.json');
 
 
@@ -46,10 +47,14 @@ const Home = () => {
 
       <div className={styles.layoutContainer}>
         <div className={styles.layoutPortion}>
-          <div>
+          <div className={styles.content}>
             <Title size={getTitleSize()} />
             <br />
             <span className={`${merriweather.className} ${utilStyles.colSecondary}`}>{text.landingPageIntro}</span>
+
+            <div className={`${styles.linksContainer} ${jetBrainsMono.className} ${utilStyles.colPrimary}`}>
+              <Link href='/about'>About</Link>
+            </div>
           </div>
         </div>
         <div className={styles.layoutPortion}><span /></div>

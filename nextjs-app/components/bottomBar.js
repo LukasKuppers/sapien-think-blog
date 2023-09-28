@@ -15,6 +15,7 @@ const BottomBar = () => {
       </div>
       <div className={styles.linkContainer}>
         <Link className={utilStyles.colPrimary} href='/'>Home</Link>
+        <Link className={utilStyles.colPrimary} href='/about'>About</Link>
       </div>
     </div>
   )

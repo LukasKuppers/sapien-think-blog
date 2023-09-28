@@ -31,6 +31,28 @@
     margin-top: 1rem;
 }
 
+.content {
+  margin: 0.5rem;
+}
+
+.linksContainer {
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 1rem;
+  width: 100%;
+}
+
+.linksContainer a {
+  text-decoration: none;
+  color: #333333;
+  border: solid;
+  border-width: 2px;
+  padding: 0.5rem;
+}
+
 @media (max-width: 768px) {
     .pageContainer {
         background: linear-gradient(to bottom, 
