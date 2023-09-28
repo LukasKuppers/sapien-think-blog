@@ -55,8 +55,12 @@ const List  = ({ articlesList }) => {
 
   const getFilteredArticles = () => {
     return ifSearchParam(
-      () => {
-        return [];
+      (query) => {
+        const finalQuery = query.toLowerCase();
+        return articlesList.filter((article) => {
+          const title = article.title.toLowerCase();
+          return title.includes(finalQuery);
+        });
       }, 
       () => {
         return articlesList;
