@@ -1,17 +1,29 @@
+import Link from 'next/link';
+
 import DateDisplay from './date';
 import styles from './articleCard.module.css';
 import utilStyles from '../styles/utils.module.css';
-import { jetBrainsMono } from '../lib/fonts';
+import { jetBrainsMono, montserrat } from '../lib/fonts';
 
 
 const ArticleCard = ({ article }) => {
+
+  const getThumbnailLink = () => {
+    return article.thumbnail_link ?
+      article.thumbnail_link :
+      '/images/ruins.svg';
+  };
+
   return (
-    <div className={`${styles.container} ${utilStyles.colPrimary}`}>
-      {article.thumbnail_link ? 
-        <img src={article.thumbnail_link} /> : ''}
+    <Link href={`/articles/${article.id}`} className={`${styles.container} ${utilStyles.colPrimary}`}>
+      <div className={styles.thumbnailContainer}>
+        <img src={getThumbnailLink()} alt='article image thumbnail' />
+      </div>
       <h1 className={jetBrainsMono.className}>{article.title}</h1>
+      {article.subtitle ? 
+        <span className={montserrat.className}>{article.subtitle}</span> : ''}
       <DateDisplay timestamp={article.date} />
-    </div>
+    </Link>
   );
 };
 
