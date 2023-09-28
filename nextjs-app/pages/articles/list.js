@@ -13,7 +13,10 @@ const text = require('../../textChunks.json');
 
 export async function getStaticProps() {
   const allArticles = await getAllArticleIds();
-  const articlesList = allArticles.map(articleData => articleData.params);
+  let articlesList = allArticles.map(articleData => articleData.params);
+
+  // sort by title
+  articlesList = articlesList.sort((a, b) => a.title.localeCompare(b.title));
 
   return {
     props: {
