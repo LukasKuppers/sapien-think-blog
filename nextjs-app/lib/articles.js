@@ -10,7 +10,7 @@ const PROD_ENV_NAME = 'prod';
 /**
  * Gets list of all sorted articles (by date desc)
  * @returns List in form:
- * [{ params: { id, title, subtitle, date, thumbnail } }]
+ * [{ params: { id, title, subtitle <optional>, date, thumbnail_link <optional> } }]
  * > Note: subtitle and thumbnial may not be present in all posts
  */
 export async function getAllArticleIds() {

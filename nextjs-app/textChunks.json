@@ -10,5 +10,7 @@
     "notFoundTitle": "Not Found - Sapien Think", 
     "notFoundDesc": "The page you are looking for does not exist", 
     "notFoundStatus": "PAGE NOT FOUND", 
-    "notFoundInfo": "The page you are looking for does not exist, or has changed location. Try the following links to get back on track:"
+    "notFoundInfo": "The page you are looking for does not exist, or has changed location. Try the following links to get back on track:", 
+    "allArticlesTitle": "All Articles", 
+    "allArticlesDesc": "A list of all of the articles in Sapien Think from a-z"
 }
