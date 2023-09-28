@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { getAllArticleIds } from '../../lib/articles';
 
 import Layout from "../../components/layout";
+import ArticleCard from '../../components/articleCard';
 import styles from '../../styles/posts/list.module.css';
 import utilStyles from '../../styles/utils.module.css';
 import { jetBrainsMonoBold, jetBrainsMono, merriweather } from '../../lib/fonts';
@@ -32,7 +33,7 @@ const List  = ({ articlesList }) => {
         </div>
         <div className={`${styles.contentContainer} ${jetBrainsMono.variable} 
                          ${merriweather.variable} ${utilStyles.colPrimary}`}>
-          {articlesList.map(article => <div><h1>{article.title}</h1><span>{article.date}</span></div>)}
+          {articlesList.map(article => <ArticleCard article={article} />)}
         </div>
       </div>
     </Layout>
