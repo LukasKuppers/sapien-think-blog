@@ -10,7 +10,7 @@ import Layout from "../../components/layout";
 import ArticleCard from '../../components/articleCard';
 import styles from '../../styles/posts/list.module.css';
 import utilStyles from '../../styles/utils.module.css';
-import { jetBrainsMonoBold, jetBrainsMono, merriweather } from '../../lib/fonts';
+import { jetBrainsMonoBold, jetBrainsMono, merriweather, montserrat } from '../../lib/fonts';
 
 const text = require('../../textChunks.json');
 
@@ -95,6 +95,10 @@ const List  = ({ articlesList }) => {
           <button className={jetBrainsMono.className} type='submit'>Search</button>
         </form>
         <h2 className={`${jetBrainsMono.className} ${utilStyles.colPrimary}`}>{getSearchTitle()}</h2>
+        {ifSearchParam(
+          () => <Link className={`${montserrat.className} ${utilStyles.colPrimary}`} 
+                      href='/articles/list'>🡠 See All Articles</Link>, 
+          () => '')}
         <div className={`${styles.contentContainer} ${jetBrainsMono.variable} 
                          ${merriweather.variable} ${utilStyles.colPrimary}`}>
           {getFilteredArticles().map(article => <ArticleCard key={article.id} article={article} />)}
