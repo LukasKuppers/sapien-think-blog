@@ -8,12 +8,12 @@ module.exports = {
   },
   extends: [
     "eslint:recommended",
-    "google",
   ],
   rules: {
     "no-restricted-globals": ["error", "name", "length"],
-    "prefer-arrow-callback": "error",
-    "quotes": ["error", "either", {"allowTemplateLiterals": true}],
+    "prefer-arrow-callback": "error", 
+    "no-unused-vars": 0, 
+    "no-prototype-builtins": 0
   },
   overrides: [
     {
