@@ -54,6 +54,7 @@ const Home = () => {
 
             <div className={`${styles.linksContainer} ${jetBrainsMono.className} ${utilStyles.colPrimary}`}>
               <Link href='/about'>About</Link>
+              <Link href='/articles/list'>All Articles</Link>
             </div>
           </div>
         </div>
