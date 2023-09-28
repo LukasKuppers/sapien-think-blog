@@ -27,8 +27,8 @@ const List  = ({ articlesList }) => {
     <Layout pageTitle={text.allArticlesTitle} pageDesc={text.allArticlesDesc}>
       <div className={`${styles.container}`}>
         <div className={styles.headingContainer}>
-          <Image src='/images/socrates.svg' width={200} height={200} />
-          <h1 className={`${utilStyles.colPrimary} ${jetBrainsMonoBold.className}`}>All Articles</h1>
+          <Image src='/images/scrolls.svg' width={200} height={200} />
+          <h1 className={`${utilStyles.colPrimary} ${jetBrainsMonoBold.className}`}>Articles A-Z</h1>
         </div>
         <div className={`${styles.contentContainer} ${jetBrainsMono.variable} 
                          ${merriweather.variable} ${utilStyles.colPrimary}`}>
