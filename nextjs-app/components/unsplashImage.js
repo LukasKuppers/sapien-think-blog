@@ -16,7 +16,7 @@ const UnsplashImage = ({ imageData }) => {
     <div className={styles.container}>
       <img className={styles.unsplashImage}
         src={imageData.regular_link}
-        alt={imageData.alt_text}
+        alt={imageData.alt_text ? imageData.alt_text : 'A beautiful photograph'}
       />
       <span className={`${styles.credits} ${montserrat.className}`}>
         Photo by 
