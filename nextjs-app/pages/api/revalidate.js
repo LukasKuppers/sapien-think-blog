@@ -19,7 +19,10 @@ export default async function handler(req, res) {
   }
 
   try {
-    await res.revalidate(`/posts/${articleId}`);
+    await res.revalidate(`/articles/${articleId}`);
+
+    // also revalidate articles list
+    await res.revalidate('/articles/list');
 
     console.log('[/api/revalidate] Success.')
     return res.json({
