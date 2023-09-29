@@ -20,8 +20,9 @@ export async function getAllArticleIds() {
     const headers = {
       'api-key': process.env.CMS_API_KEY
     };
-    const res = await axios.get(url, { headers });
-    const resData = res.data;
+    const res = await fetch(url, { headers: headers });
+    const resData = await res.json();
+
     return resData.articles;
   } catch(error) {
     console.error('articles.js: getAllArticleIds(): Error encountered fetching list:', error);
@@ -42,8 +43,8 @@ export async function getArticleData(articleId) {
     const headers = {
       'api-key': process.env.CMS_API_KEY
     };
-    const res = await axios.get(url, { headers });
-    const resData = res.data;
+    const res = await fetch(url, { headers: headers });
+    const resData = await res.json();
 
     const markdownString = resData.content;
 
