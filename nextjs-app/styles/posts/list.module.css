@@ -41,37 +41,3 @@
   gap: 0.5rem;
 }
 
-.searchArea {
-  margin: 1rem;
-  width: 100%;
-  text-align: center;
-  margin-top: 3rem;
-}
-
-.searchArea input {
-  background-color: transparent;
-  border-style: none;
-  border: solid;
-  border-color: #666;
-  border-width: 2px;
-  padding: 0.5rem;
-  margin-right: 1rem;
-  margin-bottom: 0.5rem;
-  width: 80%;
-}
-
-.searchArea input:focus {
-  outline: none;
-  border-color: #333;
-}
-
-.searchArea button {
-  background-color: transparent;
-  border-style: none;
-  border: solid;
-  border-color: #666;
-  border-width: 2px;
-  padding: 0.5rem;
-  margin-right: 1rem;
-  cursor: pointer;
-}

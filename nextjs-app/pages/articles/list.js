@@ -1,12 +1,11 @@
-import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/router';
 
 import { getAllArticleIds } from '../../lib/articles';
 
 import Layout from "../../components/layout";
+import ArticleSearchBar from '../../components/articleSearchBar';
 import ArticleCard from '../../components/articleCard';
 import styles from '../../styles/posts/list.module.css';
 import utilStyles from '../../styles/utils.module.css';
@@ -32,20 +31,7 @@ export async function getStaticProps() {
 
 const List  = ({ articlesList }) => {
 
-  const [searchQuery, setSearchQuery] = useState('');
   const searchParams = useSearchParams();
-  const router = useRouter();
-
-  const onChangeSearchQuery = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
-  const handleSearchSubmit = (event) => {
-    event.preventDefault();
-
-    const searchPath = `/articles/list?search=${searchQuery}`;
-    router.push(searchPath);
-  };
 
   const ifSearchParam = (yes, no) => {
     const query = searchParams.get('search');
@@ -84,16 +70,9 @@ const List  = ({ articlesList }) => {
           <Image src='/images/scrolls.svg' width={200} height={200} alt='scrolls stack on eachother' />
           <h1 className={`${utilStyles.colPrimary} ${jetBrainsMonoBold.className}`}>Articles A-Z</h1>
         </div>
-        <form onSubmit={handleSearchSubmit} className={styles.searchArea}>
-          <input
-            className={jetBrainsMono.className}
-            onChange={onChangeSearchQuery}
-            value={searchQuery}
-            placeholder='Search Articles...'
-            type='text'
-          />
-          <button className={jetBrainsMono.className} type='submit'>Search</button>
-        </form>
+
+        <ArticleSearchBar />
+
         <h2 className={`${jetBrainsMono.className} ${utilStyles.colPrimary}`}>{getSearchTitle()}</h2>
         {ifSearchParam(
           () => <Link className={`${montserrat.className} ${utilStyles.colPrimary}`} 
