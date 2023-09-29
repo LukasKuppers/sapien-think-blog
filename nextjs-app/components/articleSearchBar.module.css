@@ -1,6 +1,10 @@
 .searchArea {
   width: 100%;
-  text-align: start;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
 }
 
 .searchArea input {
@@ -10,9 +14,7 @@
   border-color: #666;
   border-width: 2px;
   padding: 0.5rem;
-  margin-right: 1rem;
-  margin-bottom: 0.5rem;
-  width: 80%;
+  flex: 1;
 }
 
 .searchArea input:focus {
@@ -27,6 +29,5 @@
   border-color: #666;
   border-width: 2px;
   padding: 0.5rem;
-  margin-right: 1rem;
   cursor: pointer;
 }

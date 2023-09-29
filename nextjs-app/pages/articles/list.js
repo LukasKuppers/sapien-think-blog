@@ -71,7 +71,9 @@ const List  = ({ articlesList }) => {
           <h1 className={`${utilStyles.colPrimary} ${jetBrainsMonoBold.className}`}>Articles A-Z</h1>
         </div>
 
-        <ArticleSearchBar />
+        <div className={styles.searchBarContainer}>
+          <ArticleSearchBar />
+        </div>
 
         <h2 className={`${jetBrainsMono.className} ${utilStyles.colPrimary}`}>{getSearchTitle()}</h2>
         {ifSearchParam(

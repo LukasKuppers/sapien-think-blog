@@ -41,3 +41,8 @@
   gap: 0.5rem;
 }
 
+.searchBarContainer {
+  margin-top: 3rem;
+  width: 90%;
+  text-align: center;
+}
