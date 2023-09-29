@@ -5,6 +5,7 @@ import Link from 'next/link';
 import styles from '../styles/index.module.css';
 import utilStyles from '../styles/utils.module.css';
 import Title from '../components/title';
+import ArticleSearchBar from '../components/articleSearchBar';
 import { merriweather, jetBrainsMono } from '../lib/fonts';
 const text = require('../textChunks.json');
 
@@ -51,6 +52,10 @@ const Home = () => {
             <Title size={getTitleSize()} />
             <br />
             <span className={`${merriweather.className} ${utilStyles.colSecondary}`}>{text.landingPageIntro}</span>
+            <br />
+            <br />
+
+            <ArticleSearchBar />
 
             <div className={`${styles.linksContainer} ${jetBrainsMono.className} ${utilStyles.colPrimary}`}>
               <Link href='/about'>About</Link>

@@ -1,8 +1,6 @@
 .searchArea {
-  margin: 1rem;
   width: 100%;
-  text-align: center;
-  margin-top: 3rem;
+  text-align: start;
 }
 
 .searchArea input {
