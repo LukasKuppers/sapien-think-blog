@@ -23,6 +23,7 @@ exports.app = functions
   .https.onRequest(app);
 
 exports.articleGeneration = functions
+  .runWith({ secrets: ['NEXT_REVALIDATE_TOKEN'] })
   .pubsub.schedule(ARTICLE_GENERATION_SCHEDULE)
   .onRun((context) => {
     logger.info('Article generation job is being invoked on schedule.');
