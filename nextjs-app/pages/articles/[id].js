@@ -1,4 +1,5 @@
 import { getAllArticleIds, getArticleData } from '../../lib/articles';
+import { removeAllAboveElement } from '../../lib/htmlManipulation';
 import Content404 from '../../components/content404';
 import Layout from '../../components/layout';
 import DateDisplay from '../../components/date';
@@ -41,6 +42,12 @@ const Post = ({ articleData }) => {
     return subtitle;
   };
 
+  const formatHtml = () => {
+    // remove all content above a h2 tag called 'introduction' if it exists
+    const formattedContent = removeAllAboveElement(articleData.content, 'h2', 'Introduction');
+    return formattedContent;
+  }
+
   if (!articleData || !articleData.hasOwnProperty('content')) {
     // display 404 page
     return (
@@ -65,7 +72,7 @@ const Post = ({ articleData }) => {
         <div className={styles.articleContentContainer}>
           <div
             className={`${jetBrainsMono.variable} ${jetBrainsMonoBold.variable} ${merriweather.variable}`} 
-            dangerouslySetInnerHTML={{ __html: articleData.content }} />
+            dangerouslySetInnerHTML={{ __html: formatHtml() }} />
         </div>
       </article>
     </Layout>
