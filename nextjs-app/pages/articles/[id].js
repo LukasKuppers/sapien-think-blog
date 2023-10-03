@@ -36,18 +36,6 @@ export async function getStaticProps({ params }) {
 
 const Post = ({ articleData }) => {
 
-  const formatSubtitle = () => {
-    let subtitle = articleData.subtitle;
-    subtitle = subtitle.replace(new RegExp('"', 'g'), '');
-    return subtitle;
-  };
-
-  const formatHtml = () => {
-    // remove all content above a h2 tag called 'introduction' if it exists
-    const formattedContent = removeAllAboveElement(articleData.content, 'h2', 'Introduction');
-    return formattedContent;
-  }
-
   if (!articleData || !articleData.hasOwnProperty('content')) {
     // display 404 page
     return (
@@ -62,7 +50,7 @@ const Post = ({ articleData }) => {
       <article className={styles.articleContainer}>
         <h1 className={`${jetBrainsMonoBold.className} ${utilStyles.heading2Xl}`}>{articleData.title}</h1>
         {articleData.subtitle ? 
-          <span className={`${montserrat.className} ${utilStyles.headingLg}`}>{formatSubtitle()}</span> : ''}
+          <span className={`${montserrat.className} ${utilStyles.headingLg}`}>{articleData.subtitle}</span> : ''}
         <div className={utilStyles.lightText}>
           <DateDisplay timestamp={articleData.date} />
         </div>
@@ -72,7 +60,7 @@ const Post = ({ articleData }) => {
         <div className={styles.articleContentContainer}>
           <div
             className={`${jetBrainsMono.variable} ${jetBrainsMonoBold.variable} ${merriweather.variable}`} 
-            dangerouslySetInnerHTML={{ __html: formatHtml() }} />
+            dangerouslySetInnerHTML={{ __html: articleData.content }} />
         </div>
       </article>
     </Layout>

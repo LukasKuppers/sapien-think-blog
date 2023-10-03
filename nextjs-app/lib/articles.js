@@ -2,6 +2,8 @@ import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkHtml from 'remark-html';
 
+import { removeAllAboveElement } from './htmlManipulation';
+
 
 const PROD_ENV_NAME = 'prod';
 
@@ -22,7 +24,15 @@ export async function getAllArticleIds() {
     const res = await fetch(url, { headers: headers });
     const resData = await res.json();
 
-    return resData.articles;
+    // clean up text in article data
+    const articles = resData.articles
+      .map((article) => {
+        article.params.title = formatRawText(article.params.title);
+        article.params.subtitle = formatRawText(article.params.subtitle);
+        return article;
+      });
+
+    return articles;
   } catch(error) {
     console.error('articles.js: getAllArticleIds(): Error encountered fetching list:', error);
     return [];
@@ -52,13 +62,16 @@ export async function getArticleData(articleId) {
       .use(remarkParse)
       .use(remarkHtml)
       .process(markdownString);
+
+    // remove any extra content above the first intro heading
+    const finalContent = removeAllAboveElement(processedContent.toString(), 'h2', 'Introduction');
     
     // required fields:
     let outputData = {
       id: resData.metadata.id, 
-      title: resData.metadata.title, 
+      title: formatRawText(resData.metadata.title), 
       date: resData.metadata.date, 
-      content: processedContent.toString()
+      content: finalContent
     };
 
     // optional fields:
@@ -66,7 +79,7 @@ export async function getArticleData(articleId) {
       outputData.image = resData.image;
     }
     if (resData.metadata.hasOwnProperty('subtitle')) {
-      outputData.subtitle = resData.metadata.subtitle;
+      outputData.subtitle = formatRawText(resData.metadata.subtitle);
     }
     
     return outputData;
@@ -82,4 +95,10 @@ const getCmsUrl = (route) => {
   // use https when accessing production api
   const prefix = process.env.ENV === PROD_ENV_NAME ? 'https://' : 'http://'; 
   return `${prefix}${process.env.CMS_API_HOST}${route}`;
+};
+
+const formatRawText = (text) => {
+  let formattedText = text.trim();
+  formattedText = formattedText.replace(new RegExp('"', 'g'), '');
+  return formattedText;
 };
