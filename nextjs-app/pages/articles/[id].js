@@ -34,6 +34,13 @@ export async function getStaticProps({ params }) {
 
 
 const Post = ({ articleData }) => {
+
+  const formatSubtitle = () => {
+    let subtitle = articleData.subtitle;
+    subtitle = subtitle.replace(new RegExp('"', 'g'), '');
+    return subtitle;
+  };
+
   if (!articleData || !articleData.hasOwnProperty('content')) {
     // display 404 page
     return (
@@ -48,7 +55,7 @@ const Post = ({ articleData }) => {
       <article className={styles.articleContainer}>
         <h1 className={`${jetBrainsMonoBold.className} ${utilStyles.heading2Xl}`}>{articleData.title}</h1>
         {articleData.subtitle ? 
-          <span className={`${montserrat.className} ${utilStyles.headingLg}`}>{articleData.subtitle}</span> : ''}
+          <span className={`${montserrat.className} ${utilStyles.headingLg}`}>{formatSubtitle()}</span> : ''}
         <div className={utilStyles.lightText}>
           <DateDisplay timestamp={articleData.date} />
         </div>
