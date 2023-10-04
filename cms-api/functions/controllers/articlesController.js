@@ -9,7 +9,7 @@ const ACCEPTED_FIELDS = ['metadata', 'image', 'tags', 'content'];
 const getAllArticles = (req, res) => {
   logger.info('Processing request at GET /api/articles: Getting list of metadata for all articles.');
 
-  articlesDb.getArticlesList()
+  articlesDb.getArticlesList(req.query.tags)
     .then((articles) => {
       res.status(200).json({ articles: articles });
     });

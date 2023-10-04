@@ -10,7 +10,7 @@ const COLLECTION = 'articles'
  * 
  * @returns array of article metadata, in form specified in API docs. 
  */
-const getArticlesList = async () => {
+const getArticlesList = async (tags) => {
   logger.info('[articlesFirestoreInterface] Getting article list.');
 
   const db = admin.firestore();
@@ -19,9 +19,17 @@ const getArticlesList = async () => {
 
   // query firebase for all articles
   try {
-    const articleRefs = await articlesRef.listDocuments();
-    if (articleRefs.length > 0) {
-      articleSnapshots = await db.getAll(...articleRefs);
+    if (tags) {
+      logger.info(`[articlesFirestoreInterface] Filtering articles for tags: ${JSON.stringify(tags)}`)
+      // filter tags exist: only get articles with at least one matching tag
+      const articleRefs = await articlesRef.where('tags', 'array-contains-any', tags).get();
+      articleSnapshots = articleRefs.docs;
+    } else {
+      // no filter tags supplied, get all articles
+      const articleRefs = await articlesRef.listDocuments();
+      if (articleRefs.length > 0) {
+        articleSnapshots = await db.getAll(...articleRefs);
+      }
     }
   } catch (error) {
     logger.error('[articlesFirestoreInterface] getArticlesList: error encountered querying firestore:', error);
