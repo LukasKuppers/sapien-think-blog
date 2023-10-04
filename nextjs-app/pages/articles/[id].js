@@ -4,6 +4,7 @@ import Layout from '../../components/layout';
 import DateDisplay from '../../components/date';
 import TagsDisplay from '../../components/tagsDisplay';
 import UnsplashImage from '../../components/unsplashImage';
+import ArticleCard from '../../components/articleCard';
 
 import utilStyles from '../../styles/utils.module.css';
 import styles from '../../styles/posts/[id].module.css';
@@ -38,11 +39,23 @@ export async function getStaticProps({ params }) {
       return article.params.id !== articleData.id;
     });
 
-    propsObj.props.relatedArticles = relatedArticles
+    // include a max of three related articles
+    propsObj.props.relatedArticles = getRandomElements(relatedArticles, 3);
   }
 
   return propsObj;
 }
+
+
+// helper: gets n random elements from array - returns new array
+const getRandomElements = (array, n) => {
+  if (n >= array.length) {
+    return array.slice();
+  }
+
+  const shuffledArr = array.slice().sort(() => Math.random() - 0.5);
+  return shuffledArr.slice(0, n);
+};
 
 
 const Post = ({ articleData, relatedArticles }) => {
@@ -56,12 +69,22 @@ const Post = ({ articleData, relatedArticles }) => {
     )
   }
 
+  const renderRelatedArticles = () => {
+    return (
+      <div className={styles.relatedArticlesContainer}>
+        <span className={`${styles.relatedArticlesTitle} ${jetBrainsMono.className}`}>Related:</span>
+        <div className={styles.relatedArticlesList}>
+          {relatedArticles.map(article => <ArticleCard 
+            key={article.params.id} 
+            article={article.params}
+            condense={true} />)}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <Layout pageTitle={articleData.title} pageDesc={articleData.subtitle ? articleData.subtitle : articleData.title}>
-      <div className={styles.relatedArticlesList}>
-        {relatedArticles ? 
-          relatedArticles.map(article => article.params.title) : ''}
-      </div>
       <article className={styles.articleContainer}>
         <h1 className={`${jetBrainsMonoBold.className} ${utilStyles.heading2Xl}`}>{articleData.title}</h1>
         {articleData.subtitle ? 
@@ -80,6 +103,7 @@ const Post = ({ articleData, relatedArticles }) => {
         {articleData.tags ? 
           <TagsDisplay tags={articleData.tags} /> : ''}
       </article>
+      {relatedArticles ? renderRelatedArticles() : ''}
     </Layout>
   );
 };

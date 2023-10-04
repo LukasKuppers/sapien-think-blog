@@ -6,7 +6,7 @@ import utilStyles from '../styles/utils.module.css';
 import { jetBrainsMono, montserrat } from '../lib/fonts';
 
 
-const ArticleCard = ({ article }) => {
+const ArticleCard = ({ article, condense }) => {
 
   const getThumbnailLink = () => {
     return article.thumbnail_link ?
@@ -16,11 +16,12 @@ const ArticleCard = ({ article }) => {
 
   return (
     <Link href={`/articles/${article.id}`} className={`${styles.container} ${utilStyles.colPrimary}`}>
-      <div className={styles.thumbnailContainer}>
-        <img src={getThumbnailLink()} alt='article image thumbnail' />
-      </div>
+      {!condense ? 
+        <div className={styles.thumbnailContainer}>
+          <img src={getThumbnailLink()} alt='article image thumbnail' />
+        </div> : ''}
       <h1 className={jetBrainsMono.className}>{article.title}</h1>
-      {article.subtitle ? 
+      {article.subtitle && !condense ? 
         <span className={montserrat.className}>{article.subtitle}</span> : ''}
       <DateDisplay timestamp={article.date} />
     </Link>
