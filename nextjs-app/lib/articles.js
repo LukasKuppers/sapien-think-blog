@@ -93,6 +93,42 @@ export async function getArticleData(articleId) {
 }
 
 
+/**
+ * Given an array of tags, fetches related articles (with matching tags).
+ * 
+ * @param {Array} tags - list of strings, tags that will be used to filter related articles
+ * @returns Array of related articles in form: 
+ *  [{ params: { id, title, subtitle <optional>, date, thumbnail_link <optional> } }] 
+ */
+export async function getRelatedArticles(tags) {
+  const queryParams = tags
+    .map(tag => `tags[]=${tag}`)
+    .join('&');
+  const url = getCmsUrl(`/api/articles?${queryParams}`);
+
+  try {
+    const headers = {
+      'api-key': process.env.CMS_API_KEY
+    };
+    const res = await fetch(url, { headers: headers });
+    const resData = await res.json();
+
+    // clean up text in article data
+    const articles = resData.articles
+      .map((article) => {
+        article.params.title = formatRawText(article.params.title);
+        article.params.subtitle = formatRawText(article.params.subtitle);
+        return article;
+      });
+
+    return articles;
+  } catch(error) {
+    console.error('articles.js: getRelatedArticles(): Error encountered fetching list:', error);
+    return [];
+  }
+}
+
+
 // expects routes to start with '/'
 const getCmsUrl = (route) => {
   // use https when accessing production api

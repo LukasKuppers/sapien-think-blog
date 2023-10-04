@@ -1,4 +1,4 @@
-import { getAllArticleIds, getArticleData } from '../../lib/articles';
+import { getAllArticleIds, getArticleData, getRelatedArticles } from '../../lib/articles';
 import Content404 from '../../components/content404';
 import Layout from '../../components/layout';
 import DateDisplay from '../../components/date';
@@ -25,16 +25,27 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const articleData = await getArticleData(params.id);
-
-  return {
+  let propsObj = {
     props: {
       articleData
     }
   };
+
+  // get related articles, if current has any tags
+  if (articleData.tags) {
+    let relatedArticles = await getRelatedArticles(articleData.tags);
+    relatedArticles = relatedArticles.filter((article) => {
+      return article.params.id !== articleData.id;
+    });
+
+    propsObj.props.relatedArticles = relatedArticles
+  }
+
+  return propsObj;
 }
 
 
-const Post = ({ articleData }) => {
+const Post = ({ articleData, relatedArticles }) => {
 
   if (!articleData || !articleData.hasOwnProperty('content')) {
     // display 404 page
@@ -47,6 +58,10 @@ const Post = ({ articleData }) => {
 
   return (
     <Layout pageTitle={articleData.title} pageDesc={articleData.subtitle ? articleData.subtitle : articleData.title}>
+      <div className={styles.relatedArticlesList}>
+        {relatedArticles ? 
+          relatedArticles.map(article => article.params.title) : ''}
+      </div>
       <article className={styles.articleContainer}>
         <h1 className={`${jetBrainsMonoBold.className} ${utilStyles.heading2Xl}`}>{articleData.title}</h1>
         {articleData.subtitle ? 
