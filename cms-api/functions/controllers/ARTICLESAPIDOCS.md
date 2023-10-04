@@ -65,6 +65,9 @@ Returns a JSON text body in the following format:
     "date": <article publish (creation) date>
     "subtitle": <optional | article subtitle>, 
   }, 
+  "tags": [
+    "tag1", "tag2", ...
+  ], 
   "image": {
     "regular_link": <the link used to display the full image>, 
     "thumbnail_link": <the link used to display the thumbnail image>
@@ -77,7 +80,7 @@ Returns a JSON text body in the following format:
 }
 ```
 
-> Note: image field is optional - some articles may not include images
+> Note: Tags array and image object are optional - not every article contains tags and images.
 
 ### Returns:
 - 200 - if the article was found and sent.
@@ -100,6 +103,9 @@ Required JSON format:
     "title": <article title>, 
     "subtitle": <optional | article subtitle>, 
   }, 
+  "tags": [
+    "tag1", "tag2", ...
+  ], 
   "image": {
     "regular_link": <the link used to display the full image>, 
     "thumbnail_link": <the link used to display the thumbnail image>
@@ -112,7 +118,7 @@ Required JSON format:
 }
 ```
 
-> Note: image object is optional - articles need not include images
+> Note: tags array and image object are optional.
 
 ### Returns:
 - 201 - if the article was created.
