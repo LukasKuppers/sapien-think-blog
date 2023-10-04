@@ -3,7 +3,8 @@ const logger = require('firebase-functions/logger');
 const { requestArticleRebuild } = require('../util/nextAppRevalidate')
 const { createArticle } = require('./articlesFirestoreInterface');
 const { getTopKeyword, markTopKeywordAsComplete } = require('../util/remoteKeywords');
-const { generateArticleContent, generateArticleSubtitle, generateArticleImageSearchTerm } = require('../util/openai');
+const { generateArticleContent, generateArticleSubtitle, 
+        generateArticleImageSearchTerm, generateArticleTags } = require('../util/openai');
 const { getRandomImage } = require('../util/unsplash');
 
 
@@ -22,8 +23,9 @@ const generateArticle = async () => {
   Promise.all([
     generateArticleContent(articleTitle), 
     generateArticleSubtitle(articleTitle), 
-    getRandomImage(imageSearchTerm)])
-    .then(([articleContent, articleSubtitle, imgData]) => {
+    getRandomImage(imageSearchTerm), 
+    generateArticleTags(articleTitle)])
+    .then(([articleContent, articleSubtitle, imgData, articleTags]) => {
       logger.info('[articleGenerationController] All article data successfully generated.');
 
       // format article data and request document creation in firebase
@@ -33,6 +35,7 @@ const generateArticle = async () => {
           title: articleTitle, 
           subtitle: articleSubtitle
         }, 
+        tags: articleTags, 
         image: imgData, 
         content: articleContent
       };
