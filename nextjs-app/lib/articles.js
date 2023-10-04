@@ -81,6 +81,9 @@ export async function getArticleData(articleId) {
     if (resData.metadata.hasOwnProperty('subtitle')) {
       outputData.subtitle = formatRawText(resData.metadata.subtitle);
     }
+    if (resData.hasOwnProperty('tags')) {
+      outputData.tags = resData.tags;
+    }
     
     return outputData;
   } catch (error) {

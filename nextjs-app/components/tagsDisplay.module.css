@@ -1,0 +1,21 @@
+.container {
+  margin-top: 5rem;
+  margin-bottom: 2rem;
+}
+
+.tagsList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.tag {
+  background-color: transparent;
+  border: solid #666;
+  border-width: 1px;
+  border-radius: 1rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}

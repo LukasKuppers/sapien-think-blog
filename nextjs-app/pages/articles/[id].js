@@ -1,8 +1,8 @@
 import { getAllArticleIds, getArticleData } from '../../lib/articles';
-import { removeAllAboveElement } from '../../lib/htmlManipulation';
 import Content404 from '../../components/content404';
 import Layout from '../../components/layout';
 import DateDisplay from '../../components/date';
+import TagsDisplay from '../../components/tagsDisplay';
 import UnsplashImage from '../../components/unsplashImage';
 
 import utilStyles from '../../styles/utils.module.css';
@@ -62,6 +62,8 @@ const Post = ({ articleData }) => {
             className={`${jetBrainsMono.variable} ${jetBrainsMonoBold.variable} ${merriweather.variable}`} 
             dangerouslySetInnerHTML={{ __html: articleData.content }} />
         </div>
+        {articleData.tags ? 
+          <TagsDisplay tags={articleData.tags} /> : ''}
       </article>
     </Layout>
   );
