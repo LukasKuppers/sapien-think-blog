@@ -47,6 +47,16 @@ Returns a JSON text body in the following format:
 }
 ```
 
+### Filter List by Tags
+
+It is possible to filter the list of returned articles by tags. To do this, supply a list of desired tags in the query parameters. Then, any returned articles will have at least one tag matching one of the supplied tags.
+
+**Modified Request:**
+
+`GET /api/articles?tags[]=tag1&tags[]=tag2...`
+
+The return format will be the same, but only matching articles will be included.
+
 ### Returns:
 - 200 - if the articles were fetched successfuly.
 
