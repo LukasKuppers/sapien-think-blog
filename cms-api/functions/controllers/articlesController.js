@@ -63,13 +63,16 @@ const createArticle = (req, res) => {
     }
   }
 
-  // if tags included, ensure tags is an array
+  // process tags, if included
   if (reqBody.hasOwnProperty('tags')) {
     if (!Array.isArray(reqBody.tags)) {
       return res.status(400).json({
         error: 'Request tags are malformed: tags must be an array of strings.'
       });
     }
+
+    // convert all tags to lower case
+    reqBody.tags = reqBody.tags.map(tag => tag.toLowerCase());
   }
 
   // remove any unknown fields
