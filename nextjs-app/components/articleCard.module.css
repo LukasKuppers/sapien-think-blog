@@ -10,8 +10,13 @@
   max-width: 300px;
 }
 
-.container h1 {
+.title {
   font-size: x-large;
+  margin: 0;
+}
+
+.titleSmall {
+  font-size: large;
   margin: 0;
 }
 

@@ -20,7 +20,7 @@ const ArticleCard = ({ article, condense }) => {
         <div className={styles.thumbnailContainer}>
           <img src={getThumbnailLink()} alt='article image thumbnail' />
         </div> : ''}
-      <h1 className={jetBrainsMono.className}>{article.title}</h1>
+      <h1 className={`${condense ? styles.titleSmall : styles.title} ${jetBrainsMono.className}`}>{article.title}</h1>
       {article.subtitle && !condense ? 
         <span className={montserrat.className}>{article.subtitle}</span> : ''}
       <DateDisplay timestamp={article.date} />
