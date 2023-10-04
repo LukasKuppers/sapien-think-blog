@@ -3,6 +3,8 @@ const logger = require('firebase-functions/logger');
 const articlesDb = require('./articlesFirestoreInterface');
 const { requestArticleRebuild } = require('../util/nextAppRevalidate');
 
+const ACCEPTED_FIELDS = ['metadata', 'image', 'tags', 'content'];
+
 
 const getAllArticles = (req, res) => {
   logger.info('Processing request at GET /api/articles: Getting list of metadata for all articles.');
@@ -67,6 +69,13 @@ const createArticle = (req, res) => {
       return res.status(400).json({
         error: 'Request tags are malformed: tags must be an array of strings.'
       });
+    }
+  }
+
+  // remove any unknown fields
+  for (const field of Object.keys(reqBody)) {
+    if (!ACCEPTED_FIELDS.includes(field)) {
+      delete reqBody[field];
     }
   }
 
