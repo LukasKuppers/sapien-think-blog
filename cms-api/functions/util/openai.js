@@ -64,6 +64,29 @@ const generateArticleImageSearchTerm = async (articleTitle) => {
 
 
 /**
+ * Generate an array of tags for an article with the given title
+ * 
+ * @param {String} articleTitle 
+ * @returns array of strings (tags)
+ */
+const generateArticleTags = async (articleTitle) => {
+  const messages = generateTagsRequestMessages(articleTitle);
+  const request_body = {
+    model: CHAT_MODEL, 
+    messages: messages, 
+    max_tokens: 20
+  };
+
+  const completion = await makeOpenaiChatRequest(request_body);
+  const rawTags = completion.message.content;
+
+  // convert to array of trimmed strings
+  return rawTags.split(',')
+    .map(tag => tag.trim());
+};
+
+
+/**
  * Makes a post request to the openai chat completion api.
  * 
  * @param {Object} requestBody - openai chat completion request body object 
@@ -107,7 +130,8 @@ const generateSubtitleRequestMessages = (articleTitle) => {
   const USR_MSG = `Create a subtitle for an article with the title '${articleTitle}'.`;
 
   return formOnePromptMessages(SYS_MSG, USR_MSG);
-}
+};
+
 
 /**
  * Genereate the messages array to be used in a prompt to genereate image search term
@@ -119,7 +143,20 @@ const generateImageSearchRequestMessages = (articleTitle) => {
   const USR_MSG = `Create a search term for an image to be placed on an article with the title '${articleTitle}'. Be creative and abstract. The search term should not include the article title.`;
 
   return formOnePromptMessages(SYS_MSG, USR_MSG);
-}
+};
+
+
+/**
+ * Generate the messages array to be used in a prompt to generate article tags
+ * @param {String} articleTitle
+ * @returns messages array
+ */
+const generateTagsRequestMessages = (articleTitle) => {
+  const SYS_MSG = 'You write academic articles for a philosophy blog';
+  const USR_MSG = `Suggest broad one-word tags for an article with the title '${articleTitle}'. Output should be a comma-separated list.`;
+
+  return formOnePromptMessages(SYS_MSG, USR_MSG);
+};
 
 
 const formOnePromptMessages = (sysMsg, usrMsg) => {
@@ -133,5 +170,6 @@ const formOnePromptMessages = (sysMsg, usrMsg) => {
 module.exports = {
   generateArticleContent, 
   generateArticleSubtitle, 
-  generateArticleImageSearchTerm
+  generateArticleImageSearchTerm, 
+  generateArticleTags
 };
