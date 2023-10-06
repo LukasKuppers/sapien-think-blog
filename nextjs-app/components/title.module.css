@@ -1,23 +1,38 @@
 .container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.containerNoWrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: nowrap;
+  text-wrap: nowrap;
+  gap: 1rem;
+  min-width: fit-content;
 }
 
 .container h1 {
-    margin: 0;
+  margin: 0;
 }
 
+.containerNoWrap h1 {
+  margin: 0;
+}
+
+
 .textSmall {
-    font-size: 40px;
+  font-size: 40px;
 }
 
 .textMedium {
-    font-size: 50px;
+  font-size: 50px;
 }
 
 .textLarge {
-    font-size: 80px;
+  font-size: 80px;
 }

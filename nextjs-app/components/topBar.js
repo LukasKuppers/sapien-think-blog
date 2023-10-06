@@ -34,10 +34,10 @@ const TopBar = ({ title, scrollThresholdPx }) => {
 
   return (
     <div className={`${styles.container} ${utilStyles.colSecondaryBorder}`}>
-      <Title size='s' />
+      <Title size='s' noWrap={true} />
       {displayTitle ?
         <span className={`${styles.title} ${jetBrainsMono.className} ${isTitleVisible ? styles.visible : ''}`}>
-          | {title ? title : ''}
+          {title ? title : ''}
         </span> : ''}
     </div>
   )

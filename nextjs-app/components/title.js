@@ -6,7 +6,7 @@ import styles from './title.module.css';
 import { jetBrainsMonoBold } from '../lib/fonts';
 
 
-const Title = ({ size }) => {
+const Title = ({ size, noWrap }) => {
     
     const mapSizeToOption = (sizeMap) => {
         if (!sizeMap.hasOwnProperty(size)) {
@@ -33,7 +33,7 @@ const Title = ({ size }) => {
     };
 
     return (
-        <Link href='/' className={styles.container}>
+        <Link href='/' className={noWrap ? styles.containerNoWrap : styles.container}>
             <Image src='/images/logo.svg' height={getLogoSize()} width={getLogoSize()} alt='logo'/>
             <h1 className={`${jetBrainsMonoBold.className} ${utilStyles.colPrimary} ${getFontClass()}`}
                 >Sapien Think</h1>
