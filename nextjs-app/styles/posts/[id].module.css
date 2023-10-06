@@ -7,9 +7,10 @@
 }
 
 .articleContainer {
-  margin: 3rem;
-  max-width: 700px;
+  padding: 1rem;
+  max-width: min(100%, 700px);
   color: #333333;
+  overflow-wrap: break-word;
 }
 
 /* Colors copied from utils.module.css :( fix if a better way is found */
