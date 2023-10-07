@@ -69,6 +69,24 @@ const Post = ({ articleData, relatedArticles }) => {
     )
   }
 
+  const renderReferenceLinks = () => {
+    // mock references
+    const references = [
+      'Plato, Republic', 
+      'Arthur Schopenhauer, The World as Will and Representation', 
+      'Freidrich Neitzsche, Beyond Good and Evil'
+    ];
+
+    return (
+      <div className={styles.referenceLinksContainer}>
+        <span className={`${styles.relatedArticlesTitle} ${jetBrainsMono.className}`}>Referenced Works:</span>
+        <div className={styles.relatedArticlesList}>
+          {references.map(reference => <div>{reference}</div>)}
+        </div>
+      </div>
+    );
+  };
+
   const renderRelatedArticles = () => {
     return (
       <div className={styles.relatedArticlesContainer}>
@@ -103,6 +121,7 @@ const Post = ({ articleData, relatedArticles }) => {
         {articleData.tags ? 
           <TagsDisplay tags={articleData.tags} /> : ''}
       </article>
+      {renderReferenceLinks()}
       {relatedArticles ? renderRelatedArticles() : ''}
     </Layout>
   );

@@ -88,3 +88,20 @@
   flex-direction: row;
   flex-wrap: wrap;
 }
+
+.referenceLinksContainer {
+  position: fixed;
+  right: calc(50% + 400px);
+  top: 15rem;
+  max-width: 300px;
+
+  @media (max-width: 1424px), (max-height: 1100px) {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    max-width: 700px;
+    margin-left: 3rem;
+    margin-right: 3rem;
+  }
+}
