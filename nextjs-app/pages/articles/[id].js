@@ -77,7 +77,7 @@ const Post = ({ articleData, relatedArticles }) => {
       <div className={styles.referenceLinksContainer}>
         <span className={`${styles.relatedArticlesTitle} ${jetBrainsMono.className}`}>Referenced Works:</span>
         <div className={styles.relatedArticlesList}>
-          {references.map(reference => <AffiliateLinkCard searchTerm={reference} />)}
+          {references.map(reference => <AffiliateLinkCard key={reference} searchTerm={reference} />)}
         </div>
       </div>
     );
@@ -118,6 +118,7 @@ const Post = ({ articleData, relatedArticles }) => {
           <TagsDisplay tags={articleData.tags} /> : ''}
       </article>
       {renderReferenceLinks()}
+      <br />
       {relatedArticles ? renderRelatedArticles() : ''}
     </Layout>
   );

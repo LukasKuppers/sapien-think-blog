@@ -81,12 +81,14 @@
 .relatedArticlesTitle {
   font-size: x-large;
   margin-left: 1rem;
+  text-align: start;
 }
 
 .relatedArticlesList {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .referenceLinksContainer {
