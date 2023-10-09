@@ -30,7 +30,9 @@ export async function getStaticProps({ params }) {
   let propsObj = {
     props: {
       articleData
-    }
+    }, 
+    // revalidate page at most once per month (in order to update related articles list)
+    revalidate: 60 * 60 * 24 * 30
   };
 
   // get related articles, if current has any tags
