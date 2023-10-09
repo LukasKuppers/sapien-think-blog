@@ -27,6 +27,10 @@
 
 .textSmall {
   font-size: 40px;
+
+  @media (max-width: 390px) {
+    text-wrap: wrap;
+  }
 }
 
 .textMedium {
@@ -36,3 +40,4 @@
 .textLarge {
   font-size: 80px;
 }
+
