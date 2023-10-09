@@ -73,6 +73,10 @@ const Post = ({ articleData, relatedArticles }) => {
   const renderReferenceLinks = () => {
     const references = articleData.references;
 
+    if (references.length === 0) {
+      return '';
+    }
+
     return (
       <div className={styles.referenceLinksContainer}>
         <span className={`${styles.relatedArticlesTitle} ${jetBrainsMono.className}`}>Referenced Works:</span>
