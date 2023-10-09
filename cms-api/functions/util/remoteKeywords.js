@@ -19,7 +19,7 @@ const getTopKeyword = async () => {
   const rows = await getAllTableData(BASE_ID, TABLE_ID);
   if (!rows || rows.length === 0) {
     logger.error('remoteKeywords.js: getTopKeyword: Table is non-existent or empty.');
-    return '';
+    return null;
   }
 
   // loop through rows until keyword is found that doesn't have status done or ignore.
@@ -40,6 +40,8 @@ const getTopKeyword = async () => {
       };
     }
   }
+  
+  return null;
 };
 
 

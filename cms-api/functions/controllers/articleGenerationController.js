@@ -15,6 +15,12 @@ const generateArticle = async () => {
   logger.info('[articleGenerationController] Processing request to generate new article.');
 
   const keywordData = await getTopKeyword();
+
+  if (!keywordData) {
+    logger.info('[articleGenerationController] No pending keywords exist in table. Aborting.');
+    return;
+  }
+
   const articleTitle = keywordData.keyword;
   const articleId = getIdFromTitle(articleTitle);
 
