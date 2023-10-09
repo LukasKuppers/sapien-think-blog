@@ -25,6 +25,38 @@ const removeAllAboveElement = (htmlString, targetTag, targetText) => {
 };
 
 
+/**
+ * Given an HTML string, gets the content of a list under a specific heading (tag).
+ *  
+ * @param {String} htmlString - valid HTML content in string format 
+ * @param {String} targetTag - the tag of the heading element to target.
+ * @param {String} targetText - the value of the heading element to target.
+ * @returns An array of strings, each string corresponding to the entire contiguous text on one list item.
+ */
+const getListUnderTag = (htmlString, targetTag, targetText) => {
+  const $ = cheerio.load(htmlString);
+
+  // find target element
+  const targetElement = $(`${targetTag}:contains("${targetText}")`);
+
+  if (!targetTag.length) {
+    // if target doesnt exist, return empty array
+    return [];
+  }
+
+  const $list = targetElement.nextAll().find('li');
+
+  const list = [];
+  $list.each((index, item) => {
+    const listItemText = $(item).text();
+    list.push(listItemText);
+  });
+
+  return list;
+};
+
+
 module.exports = {
-  removeAllAboveElement
+  removeAllAboveElement, 
+  getListUnderTag
 };

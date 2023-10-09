@@ -2,7 +2,7 @@ import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkHtml from 'remark-html';
 
-import { removeAllAboveElement } from './htmlManipulation';
+import { removeAllAboveElement, getListUnderTag } from './htmlManipulation';
 
 
 const PROD_ENV_NAME = 'prod';
@@ -43,7 +43,7 @@ export async function getAllArticleIds() {
 /**
  * Gets complete article data corresponding to provided ID
  * @param {String} articleId - unique ID of article 
- * @returns object containing article data - id, title, date, and content are garunteed
+ * @returns object containing article data - id, title, date, references (Array), and content are garunteed
  */
 export async function getArticleData(articleId) {
   const url = getCmsUrl(`/api/articles/${articleId}`);
@@ -65,12 +65,16 @@ export async function getArticleData(articleId) {
 
     // remove any extra content above the first intro heading
     const finalContent = removeAllAboveElement(processedContent.toString(), 'h2', 'Introduction');
+
+    // extract references
+    const references = getListUnderTag(processedContent.toString(), 'h2', 'References');
     
     // required fields:
     let outputData = {
       id: resData.metadata.id, 
       title: formatRawText(resData.metadata.title), 
       date: resData.metadata.date, 
+      references: references, 
       content: finalContent
     };
 

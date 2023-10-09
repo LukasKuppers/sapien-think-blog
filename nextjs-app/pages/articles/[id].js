@@ -5,6 +5,7 @@ import DateDisplay from '../../components/date';
 import TagsDisplay from '../../components/tagsDisplay';
 import UnsplashImage from '../../components/unsplashImage';
 import ArticleCard from '../../components/articleCard';
+import AffiliateLinkCard from '../../components/affiliateLinkCard';
 
 import utilStyles from '../../styles/utils.module.css';
 import styles from '../../styles/posts/[id].module.css';
@@ -70,18 +71,13 @@ const Post = ({ articleData, relatedArticles }) => {
   }
 
   const renderReferenceLinks = () => {
-    // mock references
-    const references = [
-      'Plato, Republic', 
-      'Arthur Schopenhauer, The World as Will and Representation', 
-      'Freidrich Neitzsche, Beyond Good and Evil'
-    ];
+    const references = articleData.references;
 
     return (
       <div className={styles.referenceLinksContainer}>
         <span className={`${styles.relatedArticlesTitle} ${jetBrainsMono.className}`}>Referenced Works:</span>
         <div className={styles.relatedArticlesList}>
-          {references.map(reference => <div>{reference}</div>)}
+          {references.map(reference => <AffiliateLinkCard searchTerm={reference} />)}
         </div>
       </div>
     );
