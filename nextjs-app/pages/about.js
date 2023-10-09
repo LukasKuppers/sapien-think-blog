@@ -13,7 +13,7 @@ const About  = () => {
     <Layout pageTitle={text.aboutTitle} pageDesc={text.aboutDesc}>
       <div className={`${styles.container}`}>
         <div className={styles.headingContainer}>
-          <Image src='/images/socrates.svg' width={200} height={200} />
+          <Image src='/images/socrates.svg' alt='socrates sitting contemplatively' width={200} height={200} />
           <h1 className={`${utilStyles.colPrimary} ${jetBrainsMonoBold.className}`}>About</h1>
         </div>
         <div className={`${styles.contentContainer} ${jetBrainsMono.variable} 
