@@ -46,6 +46,8 @@ const generateArticle = async () => {
         content: articleContent
       };
 
+      logger.info('[articleGenerationController] Attempting to write document with data:', JSON.stringify(articleData));
+
       return createArticle(articleData);
     })
     .then((success) => {
