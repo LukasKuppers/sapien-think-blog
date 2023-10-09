@@ -6,4 +6,5 @@
   color: #333;
   font-size: medium;
   max-width: 300px;
+  z-index: 0;
 }
