@@ -43,7 +43,9 @@ export async function getStaticProps({ params }) {
     });
 
     // include a max of three related articles
-    propsObj.props.relatedArticles = getRandomElements(relatedArticles, 3);
+    if (relatedArticles.length > 0) {
+      propsObj.props.relatedArticles = getRandomElements(relatedArticles, 3);
+    }
   }
 
   return propsObj;
