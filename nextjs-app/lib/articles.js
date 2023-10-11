@@ -67,7 +67,7 @@ export async function getArticleData(articleId) {
     const finalContent = removeAllAboveElement(processedContent.toString(), 'h2', 'Introduction');
 
     // extract references
-    const references = getListUnderTag(processedContent.toString(), 'h2', 'References');
+    const references = getListUnderTag(processedContent.toString(), 'h2', 'References', ['p', 'h1', 'h3']);
     
     // required fields:
     let outputData = {
