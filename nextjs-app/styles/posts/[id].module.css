@@ -84,7 +84,11 @@
 }
 
 .relatedArticlesList {
-  max-height: 500px;
+  height: 600px;
+
+  @media (max-width: 1424px), (max-height: 1100px) {
+    height: auto;
+  }
 }
 
 .referenceLinksContainer {

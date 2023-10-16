@@ -1,6 +1,40 @@
 .container {
+  max-height: 100%;
+}
+
+.containerScroll {
+  max-height: 100%;
+  overflow: hidden;
+  overflow-y: scroll;
+  border-top: solid #666 1px;
+  border-bottom: solid #666 1px;
+  position: relative;
+}
+
+.containerScroll::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollContent {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   gap: 1rem;
+  z-index: 1;
+}
+
+.blockerTop {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 0.5rem;
+  z-index: 2;
+}
+
+.blockerBottom {
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  height: 0.5rem;
+  z-index: 2;
 }
