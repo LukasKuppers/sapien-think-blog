@@ -6,7 +6,7 @@
   border-color: #666;
   border-width: 2px;
   padding: 0.5rem;
-  max-width: 300px;
+  width: 300px;
   word-wrap: break-word;
   z-index: 0;
 }
