@@ -73,8 +73,7 @@
     left: 0;
     right: 0;
     max-width: 700px;
-    margin-left: 3rem;
-    margin-right: 3rem;
+    padding: 1rem;
   }
 }
 
@@ -85,10 +84,7 @@
 }
 
 .relatedArticlesList {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 1rem;
+  max-height: 500px;
 }
 
 .referenceLinksContainer {
@@ -103,7 +99,6 @@
     left: 0;
     right: 0;
     max-width: 700px;
-    margin-left: 3rem;
-    margin-right: 3rem;
+    padding: 1rem;
   }
 }

@@ -6,6 +6,7 @@ import TagsDisplay from '../../components/tagsDisplay';
 import UnsplashImage from '../../components/unsplashImage';
 import ArticleCard from '../../components/articleCard';
 import AffiliateLinkCard from '../../components/affiliateLinkCard';
+import ReactiveScroll from '../../components/reactiveScroll';
 
 import utilStyles from '../../styles/utils.module.css';
 import styles from '../../styles/posts/[id].module.css';
@@ -85,7 +86,9 @@ const Post = ({ articleData, relatedArticles }) => {
       <div className={styles.referenceLinksContainer}>
         <span className={`${styles.relatedArticlesTitle} ${jetBrainsMono.className}`}>Referenced Works:</span>
         <div className={styles.relatedArticlesList}>
-          {references.map(reference => <AffiliateLinkCard key={reference} searchTerm={reference} />)}
+          <ReactiveScroll>
+            {references.map(reference => <AffiliateLinkCard key={reference} searchTerm={reference} />)}
+          </ReactiveScroll>
         </div>
       </div>
     );
@@ -96,10 +99,12 @@ const Post = ({ articleData, relatedArticles }) => {
       <div className={styles.relatedArticlesContainer}>
         <span className={`${styles.relatedArticlesTitle} ${jetBrainsMono.className}`}>Related:</span>
         <div className={styles.relatedArticlesList}>
-          {relatedArticles.map(article => <ArticleCard 
-            key={article.params.id} 
-            article={article.params}
-            condense={true} />)}
+          <ReactiveScroll>
+            {relatedArticles.map(article => <ArticleCard 
+              key={article.params.id} 
+              article={article.params}
+              condense={true} />)}
+          </ReactiveScroll>
         </div>
       </div>
     );
