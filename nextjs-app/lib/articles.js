@@ -2,7 +2,7 @@ import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkHtml from 'remark-html';
 
-import { removeAllAboveElement, getListUnderTag } from './htmlManipulation';
+import { removeAllAboveElement, removeAllBelowElement, getLastList } from './htmlManipulation';
 
 
 const PROD_ENV_NAME = 'prod';
@@ -64,10 +64,12 @@ export async function getArticleData(articleId) {
       .process(markdownString);
 
     // remove any extra content above the first intro heading
-    const finalContent = removeAllAboveElement(processedContent.toString(), 'h2', 'Introduction');
+    let finalContent = removeAllAboveElement(processedContent.toString(), 'h2', 'Introduction');
+    finalContent = removeAllBelowElement(finalContent, 'ul, ol');
 
     // extract references
-    const references = getListUnderTag(processedContent.toString(), 'h2', 'References', ['p', 'h1', 'h3']);
+    // const references = getListUnderTag(finalContent, 'h2', 'References', ['p', 'h1', 'h3']);
+    const references = getLastList(finalContent);
     
     // required fields:
     let outputData = {

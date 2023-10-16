@@ -26,6 +26,53 @@ const removeAllAboveElement = (htmlString, targetTag, targetText) => {
 
 
 /**
+ * Given an HTML string, removes all content after the last occurence of the specified element (by tag).
+ * 
+ * @param {String} htmlString - valid HTML content in string format. 
+ * @param {String} targetTag - the tag of the element to target. Can also supply a comma separated list of tags. ex: 'ul, ol'. 
+ * @returns The new HTML string after applying modifications.
+ */
+const removeAllBelowElement = (htmlString, targetTag) => {
+  const $ = cheerio.load(htmlString);
+
+  const lastElement = $(targetTag).last();
+
+  if (lastElement.length) {
+    lastElement.nextAll().remove();
+  }
+
+  const modifiedHtml = $.html();
+  return modifiedHtml;
+};
+
+
+/**
+ * Given an HTML string, gets the content of the last list in the document.
+ *  
+ * @param {String} htmlString - valid HTML content in string format 
+ * @returns An array of strings, each string corresponding to the entire contiguous text on one list item.
+ */
+const getLastList = (htmlString) => {
+  const $ = cheerio.load(htmlString);
+
+  // find target element
+  const lastList = $('ul, ol').last();
+
+  if (!lastList.length) {
+    // if list doesnt exist, return empty array
+    return [];
+  }
+
+  const list = [];
+  lastList.children().each((index, item) => {
+    const listItemText = $(item).text();
+    list.push(listItemText);
+  });
+
+  return list;
+}
+
+/**
  * Given an HTML string, gets the content of a list under a specific heading (tag).
  *  
  * @param {String} htmlString - valid HTML content in string format 
@@ -69,5 +116,7 @@ const getListUnderTag = (htmlString, targetTag, targetText, fallbackTags) => {
 
 module.exports = {
   removeAllAboveElement, 
+  removeAllBelowElement, 
+  getLastList, 
   getListUnderTag
 };
