@@ -87,7 +87,7 @@ const Post = ({ articleData, relatedArticles }) => {
       <div className={styles.referenceLinksContainer}>
         <span className={`${styles.relatedArticlesTitle} ${jetBrainsMono.className}`}>
           <div className={styles.affiliateInfo}>
-            <InfoPopup />
+            <InfoPopup infoText={text.affiliateDisclosure} />
           </div>
           Referenced Works:
         </span>
