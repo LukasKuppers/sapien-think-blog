@@ -1,4 +1,5 @@
 import styles from './affiliateLinkCard.module.css';
+import utilStyles from '../styles/utils.module.css';
 import { jetBrainsMono } from '../lib/fonts';
 
 const ASSOCIATES_TRACKING_ID = 'sapienthink06-20';
@@ -40,6 +41,7 @@ const AffiliateLinkCard = ({ reference }) => {
 
   return (
     <a className={`${styles.container} ${jetBrainsMono.className}`} target='_blank' href={getAffiliateLink()}>
+      <span className={`${styles.adDisclaimer} ${utilStyles.colSecondary}`}>Ad</span>
       {getSearchTerm()}
     </a>
   );

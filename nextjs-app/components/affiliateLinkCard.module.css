@@ -3,9 +3,18 @@
   border-radius: 1rem;
   border-width: 1px;
   padding: 0.5rem;
+  padding-bottom: 1rem;
   color: #333;
   font-size: medium;
   width: 300px;
   word-wrap: break-word;
   z-index: 0;
+  position: relative;
+}
+
+.adDisclaimer {
+  position: absolute;
+  right: 5px;
+  bottom: 3px;
+  font-size: small;
 }
