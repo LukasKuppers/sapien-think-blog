@@ -32,6 +32,9 @@ const AffiliateLinkCard = ({ reference }) => {
 
   const getSearchTerm = () => {
     const [author, title] = extractAuthorsAndTitle(reference);
+    if (!author || !title) {
+      return reference
+    }
     return `${author}, ${title}`;
   };
 
