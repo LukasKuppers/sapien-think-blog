@@ -81,6 +81,7 @@
   font-size: x-large;
   margin-left: 1rem;
   text-align: start;
+  position: relative;
 }
 
 .relatedArticlesList {
@@ -105,4 +106,10 @@
     max-width: 700px;
     padding: 1rem;
   }
+}
+
+.affiliateInfo {
+  position: absolute;
+  top: 5px;
+  left: -25px;
 }

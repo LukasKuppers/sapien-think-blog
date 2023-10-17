@@ -7,6 +7,7 @@ import UnsplashImage from '../../components/unsplashImage';
 import ArticleCard from '../../components/articleCard';
 import AffiliateLinkCard from '../../components/affiliateLinkCard';
 import ReactiveScroll from '../../components/reactiveScroll';
+import InfoPopup from '../../components/infoPopup';
 
 import utilStyles from '../../styles/utils.module.css';
 import styles from '../../styles/posts/[id].module.css';
@@ -84,7 +85,12 @@ const Post = ({ articleData, relatedArticles }) => {
 
     return (
       <div className={styles.referenceLinksContainer}>
-        <span className={`${styles.relatedArticlesTitle} ${jetBrainsMono.className}`}>Referenced Works:</span>
+        <span className={`${styles.relatedArticlesTitle} ${jetBrainsMono.className}`}>
+          <div className={styles.affiliateInfo}>
+            <InfoPopup />
+          </div>
+          Referenced Works:
+        </span>
         <div className={styles.relatedArticlesList}>
           <ReactiveScroll>
             {references.map(reference => <AffiliateLinkCard key={reference} reference={reference} />)}
