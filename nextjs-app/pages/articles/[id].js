@@ -87,7 +87,7 @@ const Post = ({ articleData, relatedArticles }) => {
         <span className={`${styles.relatedArticlesTitle} ${jetBrainsMono.className}`}>Referenced Works:</span>
         <div className={styles.relatedArticlesList}>
           <ReactiveScroll>
-            {references.map(reference => <AffiliateLinkCard key={reference} searchTerm={reference} />)}
+            {references.map(reference => <AffiliateLinkCard key={reference} reference={reference} />)}
           </ReactiveScroll>
         </div>
       </div>

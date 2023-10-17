@@ -63,7 +63,7 @@ export async function getArticleData(articleId) {
       .use(remarkHtml)
       .process(markdownString);
 
-    // remove any extra content above the first intro heading
+    // remove any unwanted and additional content
     let finalContent = removeAllAboveElement(processedContent.toString(), 'h2', 'Introduction');
     finalContent = removeAllBelowElement(finalContent, 'ul, ol');
 
@@ -140,6 +140,7 @@ const getCmsUrl = (route) => {
   const prefix = process.env.ENV === PROD_ENV_NAME ? 'https://' : 'http://'; 
   return `${prefix}${process.env.CMS_API_HOST}${route}`;
 };
+
 
 const formatRawText = (text) => {
   let formattedText = text.trim();
