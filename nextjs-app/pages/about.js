@@ -26,7 +26,7 @@ const About  = () => {
           <h2>Our Commitment</h2>
           <p>{text.aboutCommitment}</p>
           <br />
-          <h2>Disclosure:</h2>
+          <h2>Disclosure</h2>
           <p>{text.aboutDisclosures}</p>
         </div>
       </div>
