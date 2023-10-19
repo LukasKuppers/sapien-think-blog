@@ -48,6 +48,11 @@
   color: #666;
 }
 
+.articleContentContainer ol {
+  font-family: var(--font-merriweather);
+  color: #666;
+}
+
 .articleContainer strong {
   color: #333333;
 }
