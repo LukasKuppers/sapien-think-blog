@@ -83,6 +83,7 @@ const List  = ({ articlesList }) => {
         <div className={`${styles.contentContainer} ${jetBrainsMono.variable} 
                          ${merriweather.variable} ${utilStyles.colPrimary}`}>
           {getFilteredArticles().map(article => <ArticleCard key={article.id} article={article} />)}
+          {getFilteredArticles().length === 0 ? <span className={montserrat.className}>No articles found.</span> : ''}
         </div>
       </div>
     </Layout>
