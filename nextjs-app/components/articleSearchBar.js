@@ -19,6 +19,9 @@ const ArticleSearchBar = () => {
 
     const searchPath = `/articles/list?search=${searchQuery}`;
     router.push(searchPath);
+
+    // reset search bar
+    setSearchQuery('');
   };
 
   return (
