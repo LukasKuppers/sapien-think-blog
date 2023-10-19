@@ -25,6 +25,7 @@
   z-index: 3;
   transition: opacity 0.5s;
   opacity: 0;
+  pointer-events: none;
 }
 
 .show {
