@@ -33,6 +33,11 @@
   color: #333333;
 }
 
+.articleContentContainer h3 {
+  font-family: var(--font-jetbrains-mono);
+  color: #333333;
+}
+
 .articleContentContainer p {
   font-family: var(--font-merriweather);
   color: #666;
