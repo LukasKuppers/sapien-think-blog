@@ -39,7 +39,9 @@ const AffiliateLinkCard = ({ reference }) => {
   };
 
   const getAffiliateLink = () => {
-    return `https://www.amazon.ca/gp/search?ie=UTF8&tag=${ASSOCIATES_TRACKING_ID}&linkCode=ur2&camp=15121&creative=330641&index=books-ca&keywords=${getSearchTerm()}`;
+    let searchTerm = getSearchTerm();
+    searchTerm = encodeURIComponent(searchTerm);
+    return `https://www.amazon.ca/gp/search?ie=UTF8&tag=${ASSOCIATES_TRACKING_ID}&linkCode=ur2&camp=15121&creative=330641&index=books-ca&keywords=${searchTerm}`;
   };
 
   return (
