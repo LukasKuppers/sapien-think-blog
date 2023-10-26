@@ -18,6 +18,12 @@ Emulate the functions on your local machine:
 firebase emulators:start
 ```
 
+Emulate functions using persistent data:
+
+```
+firebase emulators:start --import ./emulator-data --export-on-exit ./emulator-data
+```
+
 Deploy to prod:
 
 ```
