@@ -20,6 +20,9 @@ const getArticlesList = async (tags) => {
   // query firebase for all articles
   try {
     if (tags) {
+      // convert query tags to lower case
+      tags = tags.map(tag => tag.toLowerCase());
+
       logger.info(`[articlesFirestoreInterface] Filtering articles for tags: ${JSON.stringify(tags)}`)
       // filter tags exist: only get articles with at least one matching tag
       const articleRefs = await articlesRef.where('tags', 'array-contains-any', tags).get();
