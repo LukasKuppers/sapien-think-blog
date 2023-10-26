@@ -103,6 +103,11 @@ const createArticle = async (articleData) => {
   
   articleData.metadata.date = Date.now();
 
+  // if tags exist, convert to lowercase
+  if (articleData.hasOwnProperty('tags')) {
+    articleData.tags = articleData.tags.map(tag => tag.toLowerCase());
+  }
+
   // create or update document
   const db = admin.firestore();
 
