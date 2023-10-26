@@ -103,9 +103,11 @@ const createArticle = async (articleData) => {
   
   articleData.metadata.date = Date.now();
 
-  // if tags exist, convert to lowercase
+  // if tags exist, process
   if (articleData.hasOwnProperty('tags')) {
-    articleData.tags = articleData.tags.map(tag => tag.toLowerCase());
+    articleData.tags = articleData.tags
+      .map(tag => tag.toLowerCase())  // conver to lowercase
+      .filter(tag => tag !== '');     // remove empty tags
   }
 
   // create or update document
